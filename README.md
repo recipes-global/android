@@ -1,6 +1,6 @@
-# Recipes Portal
+# Delicio.us
 
-*Recipes Portal* will be big portal for people who love cooking.
+*Delicio.us* will be big portal for people who love cooking.
 
 The application is not finished yet. It is still being developed.
 
@@ -8,7 +8,7 @@ The application is not finished yet. It is still being developed.
 
 ## Planned credits:
 #### 1. Libraries
-[RxJava](https://github.com/ReactiveX/RxJava) - to reactive programming.
+[RxKotlin](https://github.com/ReactiveX/RxKotlin) - to reactive programming.
 
 [RxAndroid](https://github.com/ReactiveX/RxAndroid) - to reactive programing in Android.
 
