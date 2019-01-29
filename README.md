@@ -20,7 +20,7 @@ The application is not finished yet. It is still being developed.
 
 [Glide](https://github.com/bumptech/glide) - to speed up loading of images.
 
-[Retrofit](https://square.github.io/retrofit) - to manage connections with server and handle JSON to POJO deserialization with ease. Also retrofit handles Gzip decompression in the fly.
+[Retrofit](https://square.github.io/retrofit) - to manage connections with server and handle JSON to POJO deserialization with ease.
 
 [Okhttp](http://square.github.io/okhttp) - to support all requests and responses.
 
