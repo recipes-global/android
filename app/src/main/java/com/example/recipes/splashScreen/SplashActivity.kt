@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     override fun startSplashAnimation() {
         Handler().postDelayed({
-            val animation = AnimationUtils.loadAnimation(applicationContext, R.anim.middle_to_up_move)
+            val animation = AnimationUtils.loadAnimation(applicationContext, R.anim.abc_fade_out)
             logo.startAnimation(animation)
         }, splashDisplayLength)
 
