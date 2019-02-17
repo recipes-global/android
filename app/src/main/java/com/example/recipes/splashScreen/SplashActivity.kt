@@ -3,12 +3,9 @@ package com.example.recipes.splashScreen
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.view.animation.AnimationUtils
 import com.example.recipes.MainActivity
 import com.example.recipes.R
 import com.example.recipes.logIn.LoginActivity
-import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity(), SplashContract.View {
     private val presenter: SplashContract.Presenter = SplashPresenter(this)
