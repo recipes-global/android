@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/app_bar_profile"
+            android:icon="@drawable/ic_account_circle_white_18dp"
+            android:title="@string/profile_title"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/app_bar_category"
+            android:icon="@drawable/ic_local_offer_white_18dp"
+            android:title="@string/category_title"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/app_bar_friends"
+            android:icon="@drawable/ic_group_white_18dp"
+            android:title="@string/friends_title"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/app_bar_settings"
+            android:icon="@drawable/ic_build_white_18dp"
+            android:title="@string/settings_title"
+            app:showAsAction="ifRoom"/>
+</menu>

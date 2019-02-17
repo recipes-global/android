@@ -4,4 +4,35 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">347459509177939</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb347459509177939</string>
+
+    <!-- BottomActionBar -->
+    <string name="profile_title">Profil</string>
+    <string name="category_title">Kategorie</string>
+    <string name="friends_title">Znajomi</string>
+    <string name="settings_title">Ustawienia</string>
+    <string name="notifications_title">Powiadomienia</string>
+
+    <!-- MainScreen -->
+    <string name="newsButton">Najnowsze</string>
+    <string name="rateButton">Najwyżej oceniane</string>
+    <string name="globalButton">Publiczne</string>
+    <string name="save">Zapisz</string>
+    <string name="saved">Zapisany</string>
+    <string name="share">Udostępnij</string>
+    <string name="zero">0</string>
+    <string name="search_recipe_hint">Szukaj wg nazwy lub składników</string>
+
+    <!-- Drawer menu -->
+    <string name="recipes">Przepisy</string>
+    <string name="about_app">O aplikacji</string>
+    <string name="send_error">Zgłoś błąd</string>
+    <string name="logout">Wyloguj</string>
+    <string name="added_recipes">Dodane</string>
+    <string name="saved_recipes">Zapisane</string>
+    <string name="description">Opis</string>
+    <string name="licenses">Licencje</string>
+
+    <!-- ProfileScreen -->
+    <string name="about_you">Kliknij, aby dodać coś o sobie.</string>
+
 </resources>

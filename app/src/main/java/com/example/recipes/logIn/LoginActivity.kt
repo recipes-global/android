@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.recipes.MainActivity
+import com.example.recipes.mainActivity.MainActivity
 import com.example.recipes.R
 import com.facebook.*
 import com.facebook.login.LoginManager
