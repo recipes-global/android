@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/my_card_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardElevation="10dp">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/nameTextView"
+                android:text="TextView"
+                android:textSize="@dimen/title_recipe_size"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                card_view:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                card_view:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" card_view:srcCompat="@android:drawable/ic_menu_report_image"
+                android:id="@+id/recipeImageView" card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" card_view:layout_constraintTop_toBottomOf="@+id/nameTextView"
+                android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toTopOf="@+id/saveImageView"/>
+        <ImageView
+                android:id="@+id/saveImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" card_view:srcCompat="@drawable/outline_save_black_18dp"
+                card_view:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+                card_view:layout_constraintBottom_toBottomOf="parent" card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/saveTextView"/>
+        <TextView
+                android:id="@+id/saveTextView"
+                android:text="@string/save"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintStart_toEndOf="@+id/saveImageView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/saveImageView"
+                card_view:layout_constraintTop_toTopOf="@+id/saveImageView"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/shareImageView" android:layout_marginEnd="16dp"/>
+        <ImageView
+                android:id="@+id/shareImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" card_view:srcCompat="@drawable/ic_share_black_18dp"
+                card_view:layout_constraintTop_toTopOf="@+id/saveImageView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/saveImageView"
+                card_view:layout_constraintStart_toEndOf="@+id/saveTextView"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/shareTextView"/>
+        <TextView
+                android:id="@+id/shareTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:textColor="@color/colorPrimaryDark"
+                card_view:layout_constraintStart_toEndOf="@+id/shareImageView"
+                card_view:layout_constraintTop_toTopOf="@+id/saveTextView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/saveTextView"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/commentImageView" android:layout_marginEnd="16dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" card_view:srcCompat="@drawable/ic_comment_black_18dp"
+                android:id="@+id/commentImageView"
+                card_view:layout_constraintStart_toEndOf="@+id/shareTextView"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/commentCountTextView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/shareImageView"
+                card_view:layout_constraintTop_toTopOf="@+id/shareImageView"/>
+        <TextView
+                android:id="@+id/commentCountTextView"
+                android:text="@string/zero"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintBottom_toBottomOf="@+id/commentImageView"
+                card_view:layout_constraintStart_toEndOf="@+id/commentImageView"
+                card_view:layout_constraintTop_toTopOf="@+id/commentImageView"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintEnd_toStartOf="@+id/likeImageView" android:layout_marginEnd="16dp"/>
+        <ImageView
+                android:id="@+id/likeImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:srcCompat="@drawable/outline_thumb_up_alt_black_18dp"
+                card_view:layout_constraintTop_toTopOf="@+id/commentImageView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/commentImageView"
+                card_view:layout_constraintStart_toEndOf="@+id/commentCountTextView"
+                card_view:layout_constraintHorizontal_bias="0.5" card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@+id/likeCountTextView"/>
+        <TextView
+                android:id="@+id/likeCountTextView"
+                android:text="@string/zero"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:layout_constraintStart_toEndOf="@+id/likeImageView"
+                card_view:layout_constraintTop_toTopOf="@+id/likeImageView"
+                card_view:layout_constraintBottom_toBottomOf="@+id/likeImageView"
+                card_view:layout_constraintHorizontal_bias="0.5" card_view:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"/>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

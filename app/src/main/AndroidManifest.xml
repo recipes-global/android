@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".logIn.LoginActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".mainActivity.MainActivity"/>
     </application>
 
 </manifest>

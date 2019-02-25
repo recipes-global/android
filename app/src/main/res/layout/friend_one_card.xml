@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:layout_margin="@dimen/button_padding"
+        android:layout_width="100dp"
+        android:layout_height="130dp">
+
+    <ImageView
+            android:id="@+id/friendImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp" tools:srcCompat="@tools:sample/avatars[0]"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+    <TextView
+            android:id="@+id/friendTextView"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/friendImageView"
+            app:layout_constraintStart_toStartOf="@+id/friendImageView"
+            app:layout_constraintEnd_toEndOf="@+id/friendImageView" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+</android.support.constraint.ConstraintLayout>

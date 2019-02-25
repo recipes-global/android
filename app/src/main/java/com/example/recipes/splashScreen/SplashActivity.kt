@@ -3,7 +3,7 @@ package com.example.recipes.splashScreen
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.recipes.MainActivity
+import com.example.recipes.mainActivity.MainActivity
 import com.example.recipes.R
 import com.example.recipes.logIn.LoginActivity
 
