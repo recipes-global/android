@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import com.example.recipes.R
 import com.example.recipes.data.model.Card
@@ -18,7 +16,6 @@ import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
 import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
-import kotlinx.android.synthetic.main.activity_user_main.*
 
 class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
     val presenter: MainGuestActivityContract.Presenter =
@@ -86,6 +83,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
     override fun setSwipeRefreshLayout() {
         swipeRefreshLayoutGuestMainScreen.setOnRefreshListener{
             Toast.makeText(applicationContext, "Refresh!", Toast.LENGTH_SHORT).show()
+            setFinishRefreshingSwipeRefresh()
         }
 
         swipeRefreshLayoutGuestMainScreen?.setColorSchemeResources(R.color.white,
@@ -94,27 +92,9 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
             android.R.color.holo_blue_dark)
     }
 
-    override fun setDrawerLayoutListener(){
-        drawerLayoutGuestMainScreen.addDrawerListener(object: DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(p0: Int) {
-
-            }
-
-            override fun onDrawerSlide(p0: View, p1: Float) {
-
-            }
-
-            override fun onDrawerClosed(p0: View) {
-
-            }
-
-            override fun onDrawerOpened(p0: View) {
-
-            }
-
-        })
+    override fun setFinishRefreshingSwipeRefresh() {
+        swipeRefreshLayoutGuestMainScreen.isRefreshing = false
     }
-
 
     override fun setNavigationViewListener(){
         navigationViewGuestMainScreen.menu.clear()

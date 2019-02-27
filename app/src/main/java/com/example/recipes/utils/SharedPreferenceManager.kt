@@ -3,7 +3,7 @@ package com.example.recipes.utils
 import android.content.Context
 import android.preference.PreferenceManager
 
-class sharedPreferenceMenager {
+class SharedPreferenceManager {
 
     companion object {
         fun saveUserInPreferences(context: Context, userType: UserType){

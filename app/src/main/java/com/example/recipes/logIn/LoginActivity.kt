@@ -10,7 +10,7 @@ import com.example.recipes.R
 import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.mainScreen.mainGuestActivity.MainGuestActivity
 import com.example.recipes.utils.UserType
-import com.example.recipes.utils.sharedPreferenceMenager
+import com.example.recipes.utils.SharedPreferenceManager
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -57,14 +57,14 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.View{
     }
 
     private fun goMainScreen(){
-        sharedPreferenceMenager.saveUserInPreferences(applicationContext, UserType.USER)
+        SharedPreferenceManager.saveUserInPreferences(applicationContext, UserType.USER)
         val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun goNoLoginMainScreen(){
-        sharedPreferenceMenager.saveUserInPreferences(applicationContext, UserType.GUEST)
+        SharedPreferenceManager.saveUserInPreferences(applicationContext, UserType.GUEST)
         val intent = Intent(this, MainGuestActivity::class.java)
         startActivity(intent)
         finish()
