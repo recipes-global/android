@@ -2,8 +2,10 @@ package com.example.recipes.mainScreen.mainUserActivity
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.recipes.profile.ProfileActivity
@@ -76,10 +79,23 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
     override fun setSwipeRefreshLayoutEnabledStatus() {
         if(linearLayoutManager != null){
             RecyclerViewMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                @RequiresApi(Build.VERSION_CODES.N)
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     swipeRefreshLayoutMainScreen.isEnabled =
                             linearLayoutManager!!.findFirstVisibleItemPosition() == 0
+
+                    if (dy > 0 && bottomNavigationViewMainScreen.isShown){
+                        val translateAnimation = TranslateAnimation(0f, 0f, 0f, bottomNavigationViewMainScreen.height.toFloat())
+                        translateAnimation.fillAfter = true
+                        translateAnimation.duration = 1000
+                        bottomNavigationViewMainScreen.startAnimation(translateAnimation)
+                    }else if (dy < 0){
+                        val translateAnimation = TranslateAnimation(0f, 0f, bottomNavigationViewMainScreen.height.toFloat(), 0f)
+                        translateAnimation.fillAfter = true
+                        translateAnimation.duration = 1000
+                        bottomNavigationViewMainScreen.startAnimation(translateAnimation)
+                    }
                 }
             })
         }
