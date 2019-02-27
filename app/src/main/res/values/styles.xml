@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="titles">
+        <item name="android:textSize">@dimen/titles</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="subTitles" parent="titles">
+        <item name="android:textSize">@dimen/sub_titles</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
 </resources>
