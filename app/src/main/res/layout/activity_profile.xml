@@ -18,119 +18,132 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-            android:id="@+id/photoImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_above="@+id/nameTextView"
-            android:layout_centerHorizontal="true"
-            android:background="@color/black"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarProfile" android:layout_marginTop="8dp"/>
-
-    <TextView
-            android:id="@+id/nameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="20sp"
-            tools:text="Name"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/photoImageView" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-            android:id="@+id/aboutYouTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nameTextView"
-            android:layout_centerHorizontal="true"
-            android:textSize="16sp"
-            tools:text="@string/about_you"
-            app:layout_constraintTop_toBottomOf="@+id/nameTextView" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
-
-    <TextView
-            android:id="@+id/friendsTitleTextView"
-            android:text="@string/friends_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/titles"
-            app:layout_constraintTop_toBottomOf="@+id/aboutYouTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
-
-    <TextView
-            android:id="@+id/friendsCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/friends_count"
-            style="@style/subTitles" app:layout_constraintTop_toBottomOf="@+id/friendsTitleTextView"
-            app:layout_constraintStart_toStartOf="@+id/friendsTitleTextView"/>
-
-
-    <RelativeLayout
-            android:id="@+id/recyclersView"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/friendsCountTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarProfile"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="0dp">
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/friendsRecyclerView"
+        <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:background="@color/cards_background_color"
-                android:scrollbars="horizontal"/>
+                android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/toolbarProfile"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="0dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="0dp">
 
-        <TextView
-                android:id="@+id/boardTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/board"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                style="@style/titles"
-                android:layout_below="@+id/friendsRecyclerView"/>
+            <ImageView
+                    android:id="@+id/photoImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_above="@+id/nameTextView"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"/>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayoutProfileScreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/cards_background_color"
-                android:scrollbars="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/boardTextView">
+            <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="20sp"
+                    tools:text="Name"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/photoImageView" android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/myRecipesRecyclerView"
+            <TextView
+                    android:id="@+id/aboutYouTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTextView"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"
+                    tools:text="@string/about_you"
+                    app:layout_constraintTop_toBottomOf="@+id/nameTextView" android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"/>
+
+            <TextView
+                    android:id="@+id/friendsTitleTextView"
+                    android:text="@string/friends_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/titles"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutYouTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"/>
+
+            <TextView
+                    android:id="@+id/friendsCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friends_count"
+                    style="@style/subTitles" app:layout_constraintTop_toBottomOf="@+id/friendsTitleTextView"
+                    app:layout_constraintStart_toStartOf="@+id/friendsTitleTextView"/>
+
+
+            <RelativeLayout
+                    android:id="@+id/recyclersView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </RelativeLayout>
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/ic_group_add_black_18dp"
-            android:id="@+id/imageView"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/friendsCountTextView" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@+id/friendsTitleTextView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2" android:layout_marginEnd="16dp"/>
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/ic_group_black_18dp"
-            android:id="@+id/imageView2"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView" app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/friendsCountTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/friendsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:background="@color/cards_background_color"
+                        android:scrollbars="horizontal"/>
+
+                <TextView
+                        android:id="@+id/boardTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/board"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        style="@style/titles"
+                        android:layout_below="@+id/friendsRecyclerView"/>
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/myRecipesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/boardTextView"
+                        android:background="@color/cards_background_color"
+                        android:scrollbars="vertical" tools:itemCount="18"/>
+
+            </RelativeLayout>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_group_add_black_18dp"
+                    android:id="@+id/imageView"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friendsCountTextView" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/friendsTitleTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView2" android:layout_marginEnd="16dp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_group_black_18dp"
+                    android:id="@+id/imageView2"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

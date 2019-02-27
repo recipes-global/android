@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.GravityCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
@@ -18,6 +21,7 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_user_main.*
 import org.json.JSONException
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
@@ -36,6 +40,13 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     override fun getContext(): Context? {
         return context
+    }
+
+    override fun setToolbar() {
+        setSupportActionBar(toolbarProfile)
+        val actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_18dp)
     }
 
     override fun setFriendsRecyclerView(friendList: List<Friend>?) {
@@ -58,7 +69,6 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
             Toast.makeText(context, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
             setLinearLayoutForCardsRecyclerView(cardList)
-            setSwipeRefreshLayoutEnabledStatus()
         }
     }
 
@@ -67,29 +77,6 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         myRecipesRecyclerView.adapter = adapterCards
         linearLayoutManagerCards = LinearLayoutManager(this)
         myRecipesRecyclerView.layoutManager = linearLayoutManagerCards
-    }
-
-    override fun setSwipeRefreshLayoutEnabledStatus() {
-        if(linearLayoutManagerCards != null){
-            myRecipesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    swipeRefreshLayoutProfileScreen.isEnabled =
-                        linearLayoutManagerCards!!.findFirstVisibleItemPosition() == 0
-                }
-            })
-        }
-    }
-
-    override fun setSwipeRefreshLayout() {
-        swipeRefreshLayoutProfileScreen.setOnRefreshListener{
-            Toast.makeText(context, "Refresh!", Toast.LENGTH_SHORT).show()
-        }
-
-        swipeRefreshLayoutProfileScreen?.setColorSchemeResources(R.color.white,
-            android.R.color.holo_green_dark,
-            android.R.color.holo_orange_dark,
-            android.R.color.holo_blue_dark)
     }
 
     override fun goMainActivity() {
@@ -137,6 +124,28 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         Glide.with(applicationContext)
             .load(photoUrl)
             .into(photoImageView)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.settings, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.app_bar_settings_profile -> Toast.makeText(applicationContext, "SETTINGS", Toast.LENGTH_SHORT).show()
+            android.R.id.home -> onBackPressed()
+        }
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainUserActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     override fun onDestroy() {
