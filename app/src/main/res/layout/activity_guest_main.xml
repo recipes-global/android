@@ -9,7 +9,7 @@
         android:fitsSystemWindows="true"
         tools:context=".mainScreen.mainGuestActivity.MainGuestActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -19,10 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleTextColor="@android:color/white"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:background="@color/colorPrimaryDark">
         </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.SearchView
@@ -31,16 +28,13 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 app:queryHint="@string/search_recipe_hint"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarGuestMainScreen"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_below="@+id/toolbarGuestMainScreen"/>
 
         <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/searchGuestViewMainScreen"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-                android:id="@+id/constraintLayout">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/searchGuestViewMainScreen">
 
             <Button
                     android:id="@+id/newsGuestButton"
@@ -73,16 +67,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/cards_background_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/constraintLayout"
+                android:layout_above="@+id/bottomNavigationViewGuestMainScreen">
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/RecyclerViewGuestMainScreen"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fadeScrollbars="true"/>
+                    android:layout_height="wrap_content"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.design.widget.BottomNavigationView
@@ -95,12 +87,8 @@
                 app:itemIconTint="@color/white"
                 app:itemTextColor="@color/white"
                 app:menu="@menu/guest_bottom_app_bar"
-                app:labelVisibilityMode="labeled"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-    </android.support.constraint.ConstraintLayout>
+                app:labelVisibilityMode="labeled"/>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
             android:id="@+id/navigationViewGuestMainScreen"

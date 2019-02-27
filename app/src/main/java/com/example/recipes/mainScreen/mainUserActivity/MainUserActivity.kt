@@ -23,6 +23,7 @@ import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.drawer_header.view.*
 
@@ -86,15 +87,9 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
                             linearLayoutManager!!.findFirstVisibleItemPosition() == 0
 
                     if (dy > 0 && bottomNavigationViewMainScreen.isShown){
-                        val translateAnimation = TranslateAnimation(0f, 0f, 0f, bottomNavigationViewMainScreen.height.toFloat())
-                        translateAnimation.fillAfter = true
-                        translateAnimation.duration = 1000
-                        bottomNavigationViewMainScreen.startAnimation(translateAnimation)
+                        BottomBarActions.hideBottomBar(bottomNavigationViewMainScreen)
                     }else if (dy < 0){
-                        val translateAnimation = TranslateAnimation(0f, 0f, bottomNavigationViewMainScreen.height.toFloat(), 0f)
-                        translateAnimation.fillAfter = true
-                        translateAnimation.duration = 1000
-                        bottomNavigationViewMainScreen.startAnimation(translateAnimation)
+                        BottomBarActions.showBottomBar(bottomNavigationViewMainScreen)
                     }
                 }
             })

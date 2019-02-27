@@ -16,7 +16,9 @@ import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
+import kotlinx.android.synthetic.main.activity_user_main.*
 
 class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
     val presenter: MainGuestActivityContract.Presenter =
@@ -70,6 +72,12 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
                     super.onScrolled(recyclerView, dx, dy)
                     swipeRefreshLayoutGuestMainScreen.isEnabled =
                         linearLayoutManager!!.findFirstVisibleItemPosition() == 0
+
+                    if (dy > 0 && bottomNavigationViewGuestMainScreen.isShown){
+                        BottomBarActions.hideBottomBar(bottomNavigationViewGuestMainScreen)
+                    }else if (dy < 0){
+                        BottomBarActions.showBottomBar(bottomNavigationViewGuestMainScreen)
+                    }
                 }
             })
         }
