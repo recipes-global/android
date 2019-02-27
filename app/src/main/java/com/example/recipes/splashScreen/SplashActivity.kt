@@ -3,10 +3,9 @@ package com.example.recipes.splashScreen
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.recipes.mainActivity.MainActivity
+import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
 import com.example.recipes.R
 import com.example.recipes.logIn.LoginActivity
-
 class SplashActivity : AppCompatActivity(), SplashContract.View {
     private val presenter: SplashContract.Presenter = SplashPresenter(this)
 
@@ -24,7 +23,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     }
 
     override fun goToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
     }

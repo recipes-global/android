@@ -5,28 +5,35 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.recipes.mainActivity.MainActivity
+import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
 import com.example.recipes.R
+import com.example.recipes.data.repositories.CardsRepository
+import com.example.recipes.mainScreen.mainGuestActivity.MainGuestActivity
+import com.example.recipes.utils.UserType
+import com.example.recipes.utils.sharedPreferenceMenager
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity(), LoginActivityContract.View{
+
+    private val presenter: LoginActivityContract.Presenter =
+        LoginActivityPresenter(this, CardsRepository())
     private lateinit var callbackManager: CallbackManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setCallbackManager()
-        setLoginButton()
+
+        presenter.setFirstScreen()
     }
 
-    private fun setCallbackManager(){
+    override fun setCallbackManager(){
         callbackManager = CallbackManager.Factory.create()
     }
 
-    private fun setLoginButton(){
+    override fun setLoginButton(){
         loginButton.setReadPermissions("public_profile")
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
@@ -45,8 +52,20 @@ class LoginActivity : AppCompatActivity(){
         })
     }
 
+    override fun setNoLoginButton() {
+        noLoginButton.setOnClickListener { goNoLoginMainScreen()}
+    }
+
     private fun goMainScreen(){
-        val intent = Intent(this, MainActivity::class.java)
+        sharedPreferenceMenager.saveUserInPreferences(applicationContext, UserType.USER)
+        val intent = Intent(this, MainUserActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goNoLoginMainScreen(){
+        sharedPreferenceMenager.saveUserInPreferences(applicationContext, UserType.GUEST)
+        val intent = Intent(this, MainGuestActivity::class.java)
         startActivity(intent)
         finish()
     }

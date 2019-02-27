@@ -8,16 +8,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.recipes.mainActivity.MainActivity
+import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
 import com.example.recipes.R
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.example.recipes.logIn.LoginActivity
-import com.example.recipes.mainActivity.MainActivityAdapter
+import com.example.recipes.mainScreen.MainActivityAdapter
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONException
 
@@ -94,7 +93,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     override fun goMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
     }

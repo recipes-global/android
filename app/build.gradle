@@ -16,6 +16,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -79,6 +80,8 @@ dependencies {
     androidTestImplementation 'io.mockk:mockk-android:1.9.kotlin12'
 
     testImplementation "org.mockito:mockito-core:2.7.22"
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

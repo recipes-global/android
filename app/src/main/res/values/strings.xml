@@ -31,8 +31,14 @@
     <string name="saved_recipes">Zapisane</string>
     <string name="description">Opis</string>
     <string name="licenses">Licencje</string>
+    <string name="welcome">Witaj!</string>
+    <string name="login">Zaloguj</string>
 
     <!-- ProfileScreen -->
     <string name="about_you">Kliknij, aby dodać coś o sobie.</string>
+
+    <!-- LoginScreen -->
+    <string name="login_info">Zaloguj się, aby korzystać w pełni z dostępnych możliwości.</string>
+    <string name="no_login_info">Przeglądaj publiczne przepisy.</string>
 
 </resources>

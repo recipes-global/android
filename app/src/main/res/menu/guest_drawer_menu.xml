@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="@string/about_app">
+        <menu>
+            <group
+                    android:id="@+id/about_app_group_nav"
+                    android:checkableBehavior="single">
+                <item
+                        android:id="@+id/description_app_nav"
+                        android:icon="@drawable/ic_info_black_18dp"
+                        android:title="@string/description"/>
+                <item
+                        android:id="@+id/licenses_nav"
+                        android:icon="@drawable/ic_assignment_black_18dp"
+                        android:title="@string/licenses"/>
+            </group>
+        </menu>
+    </item>
+
+    <item
+            android:id="@+id/login_nav"
+            android:title="@string/login">
+    </item>
+
+    <item
+            android:id="@+id/send_error_nav"
+            android:icon="@drawable/ic_error_black_18dp"
+            android:title="@string/send_error"/>
+
+
+</menu>
