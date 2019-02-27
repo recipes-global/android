@@ -33,9 +33,9 @@ class ProfilePresenter(private val profileView: ProfileContract.View) : ProfileC
     }
 
     override fun setFirstScreen() {
+        profileView.setToolbar()
         profileView.setFriendsRecyclerView(friendList)
         profileView.setCardsRecyclerView(cardsList)
-        profileView.setSwipeRefreshLayout()
     }
 
     override fun onDestroy() {

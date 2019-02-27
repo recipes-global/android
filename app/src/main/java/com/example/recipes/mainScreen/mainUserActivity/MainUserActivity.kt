@@ -25,6 +25,7 @@ import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
 import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
+import kotlinx.android.synthetic.main.activity_guest_main.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 
 class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
@@ -99,6 +100,7 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
     override fun setSwipeRefreshLayout() {
         swipeRefreshLayoutMainScreen.setOnRefreshListener{
             Toast.makeText(applicationContext, "Refresh!", Toast.LENGTH_SHORT).show()
+            setFinishRefreshingSwipeRefresh()
         }
 
         swipeRefreshLayoutMainScreen?.setColorSchemeResources(R.color.white,
@@ -107,25 +109,8 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
             android.R.color.holo_blue_dark)
     }
 
-    override fun setDrawerLayoutListener(){
-        drawerLayoutMainScreen.addDrawerListener(object: DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(p0: Int) {
-
-            }
-
-            override fun onDrawerSlide(p0: View, p1: Float) {
-
-            }
-
-            override fun onDrawerClosed(p0: View) {
-
-            }
-
-            override fun onDrawerOpened(p0: View) {
-
-            }
-
-        })
+    override fun setFinishRefreshingSwipeRefresh() {
+        swipeRefreshLayoutMainScreen.isRefreshing = false
     }
 
     override fun setNavigationViewListener(){

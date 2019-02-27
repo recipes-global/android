@@ -36,6 +36,8 @@
 
     <!-- ProfileScreen -->
     <string name="about_you">Kliknij, aby dodać coś o sobie.</string>
+    <string name="friends_count">Ilość znajomych</string>
+    <string name="board">Twoja tablica</string>
 
     <!-- LoginScreen -->
     <string name="login_info">Zaloguj się, aby korzystać w pełni z dostępnych możliwości.</string>

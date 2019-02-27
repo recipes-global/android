@@ -9,10 +9,9 @@ import com.facebook.Profile
 interface ProfileContract {
     interface View{
         fun getContext(): Context?
+        fun setToolbar()
         fun setFriendsRecyclerView(friendList: List<Friend>?)
         fun setCardsRecyclerView(cardList: List<Card>?)
-        fun setSwipeRefreshLayoutEnabledStatus()
-        fun setSwipeRefreshLayout()
         fun goMainActivity()
         fun goLoginScreen()
         fun displayProfileInfo(currentProfile: Profile?)

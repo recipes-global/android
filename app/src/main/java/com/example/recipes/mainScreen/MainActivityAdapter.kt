@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.model.Card
 import com.example.recipes.utils.UserType
-import com.example.recipes.utils.sharedPreferenceMenager
+import com.example.recipes.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.card_view_recipe.view.*
 
 open class MainActivityAdapter(private val cardsList: List<Card>?,
@@ -56,7 +56,7 @@ open class MainActivityAdapter(private val cardsList: List<Card>?,
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         fun bind(card: Card, context: Context?){
             if (context != null){
-                if (sharedPreferenceMenager.getUserInPreferences(context) == UserType.USER){
+                if (SharedPreferenceManager.getUserInPreferences(context) == UserType.USER){
                     setSave(card, context)
                     setLike(card, context)
 

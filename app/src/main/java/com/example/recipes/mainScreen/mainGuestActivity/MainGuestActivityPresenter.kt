@@ -20,7 +20,6 @@ class MainGuestActivityPresenter(private val mainGuestActivityView: MainGuestAct
 
     override fun setFirstScreen() {
         mainGuestActivityView.setToolbar()
-        mainGuestActivityView.setDrawerLayoutListener()
         mainGuestActivityView.setNavigationViewListener()
         mainGuestActivityView.setBottomNavigationViewListener()
         mainGuestActivityView.setSearchView()
