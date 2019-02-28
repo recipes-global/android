@@ -20,6 +20,7 @@ open class MainUserActivityPresenter(private val mainActivityView: MainUserActiv
 
     override fun setFirstScreen() {
         mainActivityView.setToolbar()
+        mainActivityView.setListeners()
         mainActivityView.setNavigationViewListener()
         mainActivityView.setBottomNavigationViewListener()
         mainActivityView.setSearchView()

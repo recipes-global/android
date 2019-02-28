@@ -43,4 +43,7 @@
     <string name="login_info">Zaloguj się, aby korzystać w pełni z dostępnych możliwości.</string>
     <string name="no_login_info">Przeglądaj publiczne przepisy.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

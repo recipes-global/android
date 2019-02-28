@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.recipes.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_user_main.*
 import com.example.recipes.R
+import com.example.recipes.addRecipe.AddRecipeFragment
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.logIn.LoginActivity
@@ -60,6 +61,19 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+    }
+
+    override fun setListeners() {
+        addRecipeFab.setOnClickListener{ startAddFragment() }
+    }
+
+    private fun startAddFragment(){
+        val fragmentManager = this.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val addRecipeFragment = AddRecipeFragment()
+        fragmentTransaction.replace(R.id.fragmentContent, addRecipeFragment)
+        fragmentTransaction.commit()
+        setAllViewsUnenabled()
     }
 
     override fun setRecyclerView(cardList: List<Card>?) {
@@ -188,5 +202,17 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
         }
 
         return true
+    }
+
+    override fun setAllViewsEnabled() {
+        toolbarMainScreen.isClickable = true
+        bottomNavigationViewMainScreen.isClickable = true
+        RecyclerViewMainScreen.isClickable = true
+    }
+
+    override fun setAllViewsUnenabled() {
+        toolbarMainScreen.isClickable = false
+        bottomNavigationViewMainScreen.isClickable = false
+        RecyclerViewMainScreen.isClickable = false
     }
 }
