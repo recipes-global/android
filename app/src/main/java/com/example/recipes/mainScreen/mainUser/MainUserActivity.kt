@@ -1,48 +1,55 @@
-package com.example.recipes.mainScreen.mainUserActivity
+package com.example.recipes.mainScreen.mainUser
 
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.recipes.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_user_main.*
 import com.example.recipes.R
 import com.example.recipes.addRecipe.AddRecipeFragment
+import com.example.recipes.dagger.activity.ActivityModule
+import com.example.recipes.dagger.activity.DaggerActivityComponent
+import com.example.recipes.dagger.mainScreen.mainUser.DaggerMainUserActivityComponent
+import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityComponent
+import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityModule
 import com.example.recipes.data.model.Card
-import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
 import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
-import kotlinx.android.synthetic.main.activity_guest_main.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
+import javax.inject.Inject
 
 class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
-    val presenter: MainUserActivityContract.Presenter =
-        MainUserActivityPresenter(this, CardsRepository())
+    @Inject
+    lateinit var presenter: MainUserActivityContract.Presenter
 
-    var linearLayoutManager: LinearLayoutManager? = null
+    @Inject
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+    @Inject
+    lateinit var adapterCards: MainActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
-        presenter.setFirstScreen()
-    }
 
-    override fun getContext(): Context? {
-        return applicationContext
+        val component: MainUserActivityComponent = DaggerMainUserActivityComponent.builder()
+            .mainUserActivityModule(MainUserActivityModule(this))
+            .activityComponent(DaggerActivityComponent.builder()
+                .activityModule(ActivityModule(this)).build())
+            .build()
+
+        component.injectMainUserActivity(this)
+
+        presenter.setFirstScreen()
     }
 
     private fun goProfileScreen(){
@@ -80,35 +87,31 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
-            setLinearLayoutForRecyclerView(cardList)
+            adapterCards.setCardList(cardList)
+            setLinearLayoutForRecyclerView()
             setSwipeRefreshLayoutEnabledStatus()
         }
     }
 
-    private fun setLinearLayoutForRecyclerView(cardList: List<Card>?) {
-        val adapterCards = MainActivityAdapter(cardList, applicationContext)
+    private fun setLinearLayoutForRecyclerView() {
         RecyclerViewMainScreen.adapter = adapterCards
-        linearLayoutManager = LinearLayoutManager(this)
         RecyclerViewMainScreen.layoutManager = linearLayoutManager
     }
 
     override fun setSwipeRefreshLayoutEnabledStatus() {
-        if(linearLayoutManager != null){
-            RecyclerViewMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    swipeRefreshLayoutMainScreen.isEnabled =
-                            linearLayoutManager!!.findFirstVisibleItemPosition() == 0
+        RecyclerViewMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                swipeRefreshLayoutMainScreen.isEnabled =
+                        linearLayoutManager.findFirstVisibleItemPosition() == 0
 
-                    if (dy > 0 && bottomNavigationViewMainScreen.isShown){
-                        BottomBarActions.hideBottomBar(bottomNavigationViewMainScreen)
-                    }else if (dy < 0){
-                        BottomBarActions.showBottomBar(bottomNavigationViewMainScreen)
-                    }
+                if (dy > 0 && bottomNavigationViewMainScreen.isShown){
+                    BottomBarActions.hideBottomBar(bottomNavigationViewMainScreen)
+                }else if (dy < 0){
+                    BottomBarActions.showBottomBar(bottomNavigationViewMainScreen)
                 }
-            })
-        }
+            }
+        })
     }
 
     override fun setSwipeRefreshLayout() {
@@ -191,7 +194,6 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.action_bar_menu, menu)
-
         return true
     }
 
@@ -200,7 +202,6 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
             R.id.app_bar_notification -> Toast.makeText(applicationContext, "NOTIFICATIONS", Toast.LENGTH_SHORT).show()
             android.R.id.home -> drawerLayoutMainScreen.openDrawer(GravityCompat.START)
         }
-
         return true
     }
 

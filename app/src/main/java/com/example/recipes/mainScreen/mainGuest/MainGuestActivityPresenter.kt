@@ -1,11 +1,10 @@
-package com.example.recipes.mainScreen.mainGuestActivity
+package com.example.recipes.mainScreen.mainGuest
 
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 
 class MainGuestActivityPresenter(private val mainGuestActivityView: MainGuestActivityContract.View,
-                                 private val cardsRepository: CardsRepository
-):
+                                 private val cardsRepository: CardsRepository):
     MainGuestActivityContract.Presenter{
 
     private val cardsList = listOf(

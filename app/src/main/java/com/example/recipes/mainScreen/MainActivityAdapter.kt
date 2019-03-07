@@ -15,9 +15,13 @@ import com.example.recipes.utils.UserType
 import com.example.recipes.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.card_view_recipe.view.*
 
-open class MainActivityAdapter(private val cardsList: List<Card>?,
-                               private val context: Context?):
+open class MainActivityAdapter (private val context: Context):
                         RecyclerView.Adapter<MainActivityAdapter.ViewHolder>(){
+    private var cardsList: List<Card>? = null
+
+    fun setCardList(cardsList: List<Card>?){
+        this.cardsList = cardsList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -54,35 +58,33 @@ open class MainActivityAdapter(private val cardsList: List<Card>?,
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        fun bind(card: Card, context: Context?){
-            if (context != null){
-                if (SharedPreferenceManager.getUserInPreferences(context) == UserType.USER){
-                    setSave(card, context)
-                    setLike(card, context)
+        fun bind(card: Card, context: Context){
+            val user = SharedPreferenceManager.getUserInPreferences(context)
+            if (user == UserType.USER){
+                setSave(card, context)
+                setLike(card, context)
 
-                }else{
-                    hideSave()
-                    setGuestLike(context)
-                }
+            }else{
+                hideSave()
+                setGuestLike(context)
             }
 
             setNameAndPhoto(card, context)
             setCounts(card)
         }
 
-        private fun setNameAndPhoto(card: Card, context: Context?){
+        private fun setNameAndPhoto(card: Card, context: Context){
             itemView.nameTextView.text = card.name
-            if(context != null){
-                Glide.with(context).load(card.recipePhoto)
-                    .into(itemView.recipeImageView)
-            }
+            Glide.with(context).load(card.recipePhoto)
+                .into(itemView.recipeImageView)
+
         }
 
-        private fun setSave(card: Card, context: Context?){
+        private fun setSave(card: Card, context: Context){
             if(card.isSaved){
-                itemView.saveImageView.setImageDrawable(context?.resources?.getDrawable(R.drawable.baseline_save_black_18dp))
+                itemView.saveImageView.setImageDrawable(context.resources?.getDrawable(R.drawable.baseline_save_black_18dp))
             }else{
-                itemView.saveImageView.setImageDrawable(context?.resources?.getDrawable(R.drawable.outline_save_black_18dp))
+                itemView.saveImageView.setImageDrawable(context.resources?.getDrawable(R.drawable.outline_save_black_18dp))
             }
         }
 
@@ -91,11 +93,11 @@ open class MainActivityAdapter(private val cardsList: List<Card>?,
             itemView.likeCountTextView.text = card.likeCount.toString()
         }
 
-        private fun setLike(card: Card, context: Context?){
+        private fun setLike(card: Card, context: Context){
             if(card.isLiked){
-                itemView.likeImageView.setImageDrawable(context?.resources?.getDrawable(R.drawable.ic_thumb_up_black_18dp))
+                itemView.likeImageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_thumb_up_black_18dp))
             }else{
-                itemView.likeImageView.setImageDrawable(context?.resources?.getDrawable(R.drawable.outline_thumb_up_alt_black_18dp))
+                itemView.likeImageView.setImageDrawable(context.resources?.getDrawable(R.drawable.outline_thumb_up_alt_black_18dp))
             }
         }
 
@@ -104,7 +106,6 @@ open class MainActivityAdapter(private val cardsList: List<Card>?,
             itemView.shareImageView.visibility = View.INVISIBLE
             itemView.saveTextView.visibility = View.INVISIBLE
             itemView.shareTextView.visibility = View.INVISIBLE
-
         }
 
         private fun setGuestLike(context: Context?) {

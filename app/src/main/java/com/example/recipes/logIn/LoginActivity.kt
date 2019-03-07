@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
+import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
 import com.example.recipes.data.repositories.CardsRepository
-import com.example.recipes.mainScreen.mainGuestActivity.MainGuestActivity
+import com.example.recipes.mainScreen.mainGuest.MainGuestActivity
 import com.example.recipes.utils.UserType
 import com.example.recipes.utils.SharedPreferenceManager
 import com.facebook.*

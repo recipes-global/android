@@ -1,13 +1,13 @@
-package com.example.recipes.mainScreen.mainGuestActivity
+package com.example.recipes.mainScreen.mainUser
 
 import android.content.Context
 import com.example.recipes.data.model.Card
 
-interface MainGuestActivityContract {
+interface MainUserActivityContract {
     interface View{
-        fun getContext(): Context?
         fun goLoginScreen()
         fun setToolbar()
+        fun setListeners()
         fun setRecyclerView(cardList: List<Card>?)
         fun setSwipeRefreshLayoutEnabledStatus()
         fun setNavigationViewListener()
@@ -15,9 +15,12 @@ interface MainGuestActivityContract {
         fun setSearchView()
         fun setSwipeRefreshLayout()
         fun setFinishRefreshingSwipeRefresh()
+        fun setAllViewsEnabled()
+        fun setAllViewsUnenabled()
     }
 
     interface Presenter{
         fun setFirstScreen()
+        fun logout()
     }
 }

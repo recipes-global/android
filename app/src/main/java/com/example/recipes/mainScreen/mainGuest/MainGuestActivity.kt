@@ -1,6 +1,5 @@
-package com.example.recipes.mainScreen.mainGuestActivity
+package com.example.recipes.mainScreen.mainGuest
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -10,27 +9,41 @@ import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.recipes.R
+import com.example.recipes.dagger.activity.ActivityModule
+import com.example.recipes.dagger.activity.DaggerActivityComponent
+import com.example.recipes.dagger.mainScreen.mainGuest.DaggerMainGuestActivityComponent
+import com.example.recipes.dagger.mainScreen.mainGuest.MainGuestActivityComponent
+import com.example.recipes.dagger.mainScreen.mainGuest.MainGuestActivityModule
 import com.example.recipes.data.model.Card
-import com.example.recipes.data.repositories.CardsRepository
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.mainScreen.MainActivityAdapter
 import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
+import javax.inject.Inject
 
 class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
-    val presenter: MainGuestActivityContract.Presenter =
-        MainGuestActivityPresenter(this, CardsRepository())
+    @Inject
+    lateinit var presenter: MainGuestActivityContract.Presenter
 
-    var linearLayoutManager: LinearLayoutManager? = null
+    @Inject
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+    @Inject
+    lateinit var adapterCards: MainActivityAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_main)
-        presenter.setFirstScreen()
-    }
 
-    override fun getContext(): Context? {
-        return applicationContext
+        val component: MainGuestActivityComponent = DaggerMainGuestActivityComponent.builder()
+            .mainGuestActivityModule(MainGuestActivityModule(this))
+            .activityComponent(
+                DaggerActivityComponent.builder()
+                    .activityModule(ActivityModule(this)).build())
+            .build()
+
+        component.injectMainGuestActivity(this)
+        presenter.setFirstScreen()
     }
 
     override fun goLoginScreen() {
@@ -50,34 +63,31 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
-            setLinearLayoutForRecyclerView(cardList)
+            adapterCards.setCardList(cardList)
+            setLinearLayoutForRecyclerView()
             setSwipeRefreshLayoutEnabledStatus()
         }
     }
 
-    private fun setLinearLayoutForRecyclerView(cardList: List<Card>?) {
-        val adapterCards = MainActivityAdapter(cardList, applicationContext)
+    private fun setLinearLayoutForRecyclerView() {
         RecyclerViewGuestMainScreen.adapter = adapterCards
-        linearLayoutManager = LinearLayoutManager(this)
         RecyclerViewGuestMainScreen.layoutManager = linearLayoutManager
     }
 
     override fun setSwipeRefreshLayoutEnabledStatus() {
-        if(linearLayoutManager != null){
-            RecyclerViewGuestMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    swipeRefreshLayoutGuestMainScreen.isEnabled =
-                        linearLayoutManager!!.findFirstVisibleItemPosition() == 0
+        RecyclerViewGuestMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                swipeRefreshLayoutGuestMainScreen.isEnabled =
+                    linearLayoutManager.findFirstVisibleItemPosition() == 0
 
-                    if (dy > 0 && bottomNavigationViewGuestMainScreen.isShown){
-                        BottomBarActions.hideBottomBar(bottomNavigationViewGuestMainScreen)
-                    }else if (dy < 0){
-                        BottomBarActions.showBottomBar(bottomNavigationViewGuestMainScreen)
-                    }
+                if (dy > 0 && bottomNavigationViewGuestMainScreen.isShown){
+                    BottomBarActions.hideBottomBar(bottomNavigationViewGuestMainScreen)
+                }else if (dy < 0){
+                    BottomBarActions.showBottomBar(bottomNavigationViewGuestMainScreen)
                 }
-            })
-        }
+            }
+        })
     }
 
     override fun setSwipeRefreshLayout() {
@@ -136,8 +146,6 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
         when (item!!.itemId) {
             android.R.id.home -> drawerLayoutGuestMainScreen.openDrawer(GravityCompat.START)
         }
-
         return true
     }
-
 }

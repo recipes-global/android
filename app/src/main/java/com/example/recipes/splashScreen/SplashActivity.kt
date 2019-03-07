@@ -1,11 +1,13 @@
 package com.example.recipes.splashScreen
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
+import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
 import com.example.recipes.logIn.LoginActivity
+
 class SplashActivity : AppCompatActivity(), SplashContract.View {
     private val presenter: SplashContract.Presenter = SplashPresenter(this)
 
@@ -26,5 +28,9 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun getContext(): Context {
+        return applicationContext
     }
 }

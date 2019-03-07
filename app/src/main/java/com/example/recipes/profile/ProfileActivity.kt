@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.recipes.mainScreen.mainUserActivity.MainUserActivity
+import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
@@ -21,7 +19,6 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_user_main.*
 import org.json.JSONException
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
@@ -73,7 +70,8 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     private fun setLinearLayoutForCardsRecyclerView(cardList: List<Card>?) {
-        val adapterCards = MainActivityAdapter(cardList, context)
+        val adapterCards = MainActivityAdapter(this)
+        adapterCards.setCardList(cardList)
         myRecipesRecyclerView.adapter = adapterCards
         linearLayoutManagerCards = LinearLayoutManager(this)
         myRecipesRecyclerView.layoutManager = linearLayoutManagerCards
