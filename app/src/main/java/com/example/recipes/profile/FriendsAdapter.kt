@@ -13,9 +13,13 @@ import com.example.recipes.R
 import com.example.recipes.data.model.Friend
 import kotlinx.android.synthetic.main.friend_one_card.view.*
 
-class FriendsAdapter(private val friendsList: List<Friend>?,
-                     private val context: Context?):
+class FriendsAdapter (private val context: Context?):
                     RecyclerView.Adapter<FriendsAdapter.ViewHolder>(){
+    private var friendsList: List<Friend>? = null
+
+    fun setFrendsList(friendsList: List<Friend>?){
+        this.friendsList = friendsList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): FriendsAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

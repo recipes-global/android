@@ -1,6 +1,5 @@
 package com.example.recipes.profile
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -37,6 +36,9 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     @Inject
     lateinit var adapterCards: MainCardsAdapter
 
+    @Inject
+    lateinit var adapterFriends: FriendsAdapter
+
     private var linearLayoutManagerFriends: LinearLayoutManager? = null
     private var email: String? = null
 
@@ -51,7 +53,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
             .build()
 
         component.injectProfileActivity(this)
-        
+
         presenter.setProfileTracker()
         presenter.setFirstScreen()
     }
@@ -67,13 +69,13 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         if(friendList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
-            setLinearLayoutForFriendsRecyclerView(friendList)
+            adapterFriends.setFrendsList(friendList)
+            setLinearLayoutForFriendsRecyclerView()
         }
     }
 
-    private fun setLinearLayoutForFriendsRecyclerView(friendList: List<Friend>?) {
-        val adapterCards = FriendsAdapter(friendList, this)
-        friendsRecyclerView.adapter = adapterCards
+    private fun setLinearLayoutForFriendsRecyclerView() {
+        friendsRecyclerView.adapter = adapterFriends
         linearLayoutManagerFriends = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         friendsRecyclerView.layoutManager = linearLayoutManagerFriends
     }
