@@ -21,9 +21,9 @@ import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
 import javax.inject.Inject
 
-class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
+class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     @Inject
-    lateinit var presenter: MainGuestActivityContract.Presenter
+    lateinit var presenter: MainGuestContract.Presenter
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager

@@ -16,9 +16,9 @@ import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.MainCardsAdapter
 import com.example.recipes.dagger.activity.ActivityModule
 import com.example.recipes.dagger.activity.DaggerActivityComponent
-import com.example.recipes.dagger.profile.DaggerProfileComponent
+import com.example.recipes.dagger.profile.DaggerProfileActivityComponent
 import com.example.recipes.dagger.profile.ProfileActivityModule
-import com.example.recipes.dagger.profile.ProfileComponent
+import com.example.recipes.dagger.profile.ProfileActivityComponent
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
@@ -46,13 +46,13 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val component: ProfileComponent = DaggerProfileComponent.builder()
+        val activityComponent: ProfileActivityComponent = DaggerProfileActivityComponent.builder()
             .profileActivityModule(ProfileActivityModule(this))
             .activityComponent(DaggerActivityComponent.builder()
                 .activityModule(ActivityModule(this)).build())
             .build()
 
-        component.injectProfileActivity(this)
+        activityComponent.injectProfileActivity(this)
 
         presenter.setProfileTracker()
         presenter.setFirstScreen()
@@ -69,7 +69,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         if(friendList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
-            adapterFriends.setFrendsList(friendList)
+            adapterFriends.setFriendsList(friendList)
             setLinearLayoutForFriendsRecyclerView()
         }
     }

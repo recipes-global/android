@@ -4,9 +4,9 @@ import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.facebook.login.LoginManager
 
-open class MainUserActivityPresenter (private val mainActivityView: MainUserActivityContract.View,
-                                                         private val cardsRepository: CardsRepository):
-    MainUserActivityContract.Presenter{
+open class MainUserPresenter (private val mainView: MainUserContract.View,
+                              private val cardsRepository: CardsRepository):
+    MainUserContract.Presenter{
 
     private val cardsList = listOf(
         Card(1, 1, "test1", "https://cdn.pixabay.com/photo/2013/07/12/12/58/tv-test-pattern-146649_960_720.png",
@@ -18,17 +18,17 @@ open class MainUserActivityPresenter (private val mainActivityView: MainUserActi
     )
 
     override fun setFirstScreen() {
-        mainActivityView.setToolbar()
-        mainActivityView.setListeners()
-        mainActivityView.setNavigationViewListener()
-        mainActivityView.setBottomNavigationViewListener()
-        mainActivityView.setSearchView()
-        mainActivityView.setRecyclerView(cardsList)
-        mainActivityView.setSwipeRefreshLayout()
+        mainView.setToolbar()
+        mainView.setListeners()
+        mainView.setNavigationViewListener()
+        mainView.setBottomNavigationViewListener()
+        mainView.setSearchView()
+        mainView.setRecyclerView(cardsList)
+        mainView.setSwipeRefreshLayout()
     }
 
     override fun logout() {
         LoginManager.getInstance().logOut()
-        mainActivityView.goLoginScreen()
+        mainView.goLoginScreen()
     }
 }

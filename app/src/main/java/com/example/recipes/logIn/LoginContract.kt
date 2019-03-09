@@ -1,8 +1,7 @@
 package com.example.recipes.logIn
 
-interface LoginActivityContract {
+interface LoginContract {
     interface View{
-        fun setCallbackManager()
         fun setLoginButton()
         fun setNoLoginButton()
     }

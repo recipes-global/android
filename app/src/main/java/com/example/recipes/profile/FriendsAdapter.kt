@@ -17,7 +17,7 @@ class FriendsAdapter (private val context: Context?):
                     RecyclerView.Adapter<FriendsAdapter.ViewHolder>(){
     private var friendsList: List<Friend>? = null
 
-    fun setFrendsList(friendsList: List<Friend>?){
+    fun setFriendsList(friendsList: List<Friend>?){
         this.friendsList = friendsList
     }
 

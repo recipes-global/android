@@ -27,9 +27,9 @@ import com.facebook.Profile
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import javax.inject.Inject
 
-class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
+class MainUserActivity : AppCompatActivity(), MainUserContract.View {
     @Inject
-    lateinit var presenter: MainUserActivityContract.Presenter
+    lateinit var presenter: MainUserContract.Presenter
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager

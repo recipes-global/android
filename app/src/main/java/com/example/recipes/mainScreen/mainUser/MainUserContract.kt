@@ -3,7 +3,7 @@ package com.example.recipes.mainScreen.mainUser
 import android.content.Context
 import com.example.recipes.data.model.Card
 
-interface MainUserActivityContract {
+interface MainUserContract {
     interface View{
         fun goLoginScreen()
         fun setToolbar()

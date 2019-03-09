@@ -6,6 +6,6 @@ import dagger.Component
 
 @ProfileActivityScope
 @Component(modules = [ProfileActivityModule::class], dependencies = [ActivityComponent::class])
-interface ProfileComponent {
+interface ProfileActivityComponent {
     fun injectProfileActivity(profileActivity: ProfileActivity)
 }

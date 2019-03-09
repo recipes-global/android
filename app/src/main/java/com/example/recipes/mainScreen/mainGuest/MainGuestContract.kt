@@ -3,7 +3,7 @@ package com.example.recipes.mainScreen.mainGuest
 import android.content.Context
 import com.example.recipes.data.model.Card
 
-interface MainGuestActivityContract {
+interface MainGuestContract {
     interface View{
         fun goLoginScreen()
         fun setToolbar()

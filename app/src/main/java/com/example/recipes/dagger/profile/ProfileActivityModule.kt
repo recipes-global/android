@@ -8,7 +8,6 @@ import dagger.Provides
 
 @Module
 class ProfileActivityModule(private val profileView: ProfileContract.View) {
-
     @Provides
     @ProfileActivityScope
     fun profileView(): ProfileContract.View{
