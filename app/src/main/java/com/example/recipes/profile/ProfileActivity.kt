@@ -14,29 +14,46 @@ import com.example.recipes.R
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.example.recipes.logIn.LoginActivity
-import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.MainCardsAdapter
+import com.example.recipes.dagger.activity.ActivityModule
+import com.example.recipes.dagger.activity.DaggerActivityComponent
+import com.example.recipes.dagger.profile.DaggerProfileComponent
+import com.example.recipes.dagger.profile.ProfileActivityModule
+import com.example.recipes.dagger.profile.ProfileComponent
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONException
+import javax.inject.Inject
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
-    private val presenter: ProfileContract.Presenter = ProfilePresenter(this)
-    private var context: Context? = null
+    @Inject
+    lateinit var presenter: ProfileContract.Presenter
+
+    @Inject
+    lateinit var linearLayoutManagerCards: LinearLayoutManager
+
+    @Inject
+    lateinit var adapterCards: MainCardsAdapter
+
     private var linearLayoutManagerFriends: LinearLayoutManager? = null
-    private var linearLayoutManagerCards: LinearLayoutManager? = null
+    private var email: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        context = applicationContext
+
+        val component: ProfileComponent = DaggerProfileComponent.builder()
+            .profileActivityModule(ProfileActivityModule(this))
+            .activityComponent(DaggerActivityComponent.builder()
+                .activityModule(ActivityModule(this)).build())
+            .build()
+
+        component.injectProfileActivity(this)
+        
         presenter.setProfileTracker()
         presenter.setFirstScreen()
-    }
-
-    override fun getContext(): Context? {
-        return context
     }
 
     override fun setToolbar() {
@@ -48,14 +65,14 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     override fun setFriendsRecyclerView(friendList: List<Friend>?) {
         if(friendList == null){
-            Toast.makeText(context, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
             setLinearLayoutForFriendsRecyclerView(friendList)
         }
     }
 
     private fun setLinearLayoutForFriendsRecyclerView(friendList: List<Friend>?) {
-        val adapterCards = FriendsAdapter(friendList, context)
+        val adapterCards = FriendsAdapter(friendList, this)
         friendsRecyclerView.adapter = adapterCards
         linearLayoutManagerFriends = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         friendsRecyclerView.layoutManager = linearLayoutManagerFriends
@@ -63,17 +80,15 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     override fun setCardsRecyclerView(cardList: List<Card>?) {
         if(cardList == null){
-            Toast.makeText(context, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
-            setLinearLayoutForCardsRecyclerView(cardList)
+            adapterCards.setCardList(cardList)
+            setLinearLayoutForCardsRecyclerView()
         }
     }
 
-    private fun setLinearLayoutForCardsRecyclerView(cardList: List<Card>?) {
-        val adapterCards = MainActivityAdapter(this)
-        adapterCards.setCardList(cardList)
+    private fun setLinearLayoutForCardsRecyclerView() {
         myRecipesRecyclerView.adapter = adapterCards
-        linearLayoutManagerCards = LinearLayoutManager(this)
         myRecipesRecyclerView.layoutManager = linearLayoutManagerCards
     }
 
@@ -110,12 +125,12 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     private fun setEmail(email: String) {
-      //  emailTextView.text = email
+        this.email = email
     }
 
-    override fun displayProfileInfo(profile: Profile?) {
-        val name = profile?.name
-        val photoUrl = profile?.getProfilePictureUri(100, 100).toString()
+    override fun displayProfileInfo(currentProfile: Profile?) {
+        val name = currentProfile?.name
+        val photoUrl = currentProfile?.getProfilePictureUri(100, 100).toString()
 
         nameTextView.text = name
 
@@ -136,7 +151,6 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
             R.id.app_bar_settings_profile -> Toast.makeText(applicationContext, "SETTINGS", Toast.LENGTH_SHORT).show()
             android.R.id.home -> onBackPressed()
         }
-
         return true
     }
 

@@ -1,4 +1,4 @@
-package com.example.recipes.mainScreen
+package com.example.recipes
 
 import android.content.Context
 import android.os.Build
@@ -9,14 +9,13 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.example.recipes.R
 import com.example.recipes.data.model.Card
 import com.example.recipes.utils.UserType
 import com.example.recipes.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.card_view_recipe.view.*
 
-open class MainActivityAdapter (private val context: Context):
-                        RecyclerView.Adapter<MainActivityAdapter.ViewHolder>(){
+open class MainCardsAdapter (private val context: Context):
+                        RecyclerView.Adapter<MainCardsAdapter.ViewHolder>(){
     private var cardsList: List<Card>? = null
 
     fun setCardList(cardsList: List<Card>?){

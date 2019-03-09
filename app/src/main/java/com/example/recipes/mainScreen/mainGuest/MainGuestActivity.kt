@@ -16,7 +16,7 @@ import com.example.recipes.dagger.mainScreen.mainGuest.MainGuestActivityComponen
 import com.example.recipes.dagger.mainScreen.mainGuest.MainGuestActivityModule
 import com.example.recipes.data.model.Card
 import com.example.recipes.logIn.LoginActivity
-import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.MainCardsAdapter
 import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestActivityContract.View {
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
-    lateinit var adapterCards: MainActivityAdapter
+    lateinit var adapterCards: MainCardsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

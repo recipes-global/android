@@ -2,7 +2,7 @@ package com.example.recipes.dagger.activity
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
-import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.MainCardsAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -11,8 +11,8 @@ class ListsModule {
 
     @Provides
     @ActivityScope
-    fun adapterCards(@ActivityContext context: Context): MainActivityAdapter {
-        return MainActivityAdapter(context)
+    fun adapterCards(@ActivityContext context: Context): MainCardsAdapter {
+        return MainCardsAdapter(context)
     }
 
     @Provides

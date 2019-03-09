@@ -2,11 +2,13 @@ package com.example.recipes.profile
 
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
+import com.example.recipes.data.repositories.CardsRepository
 import com.facebook.AccessToken
 import com.facebook.Profile
 import com.facebook.ProfileTracker
 
-class ProfilePresenter(private val profileView: ProfileContract.View) : ProfileContract.Presenter {
+class ProfilePresenter(private val profileView: ProfileContract.View,
+                       private val cardsRepository: CardsRepository) : ProfileContract.Presenter {
     private lateinit var  profileTracker: ProfileTracker
 
     override fun setProfileTracker(){

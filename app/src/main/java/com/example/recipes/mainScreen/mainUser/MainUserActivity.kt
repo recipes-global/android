@@ -21,7 +21,7 @@ import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityComponent
 import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityModule
 import com.example.recipes.data.model.Card
 import com.example.recipes.logIn.LoginActivity
-import com.example.recipes.mainScreen.MainActivityAdapter
+import com.example.recipes.MainCardsAdapter
 import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.drawer_header.view.*
@@ -35,7 +35,7 @@ class MainUserActivity : AppCompatActivity(), MainUserActivityContract.View {
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
-    lateinit var adapterCards: MainActivityAdapter
+    lateinit var adapterCards: MainCardsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
