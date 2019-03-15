@@ -19,6 +19,7 @@ import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.MainCardsAdapter
 import com.example.recipes.utils.BottomBarActions
 import kotlinx.android.synthetic.main.activity_guest_main.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
@@ -47,12 +48,14 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun goLoginScreen() {
+        Timber.tag(TAG).d("goLoginScreen")
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
 
     override fun setToolbar(){
+        Timber.tag(TAG).d("setToolbar")
         setSupportActionBar(toolbarGuestMainScreen)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -60,6 +63,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun setRecyclerView(cardList: List<Card>?) {
+        Timber.tag(TAG).d("setRecyclerView")
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
@@ -70,11 +74,13 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     private fun setLinearLayoutForRecyclerView() {
+        Timber.tag(TAG).d("setLinearLayoutForRecyclerView")
         RecyclerViewGuestMainScreen.adapter = adapterCards
         RecyclerViewGuestMainScreen.layoutManager = linearLayoutManager
     }
 
     override fun setSwipeRefreshLayoutEnabledStatus() {
+        Timber.tag(TAG).d("setSwipeRefreshLayoutEnabledStatus")
         RecyclerViewGuestMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -91,6 +97,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun setSwipeRefreshLayout() {
+        Timber.tag(TAG).d("setSwipeRefreshLayout")
         swipeRefreshLayoutGuestMainScreen.setOnRefreshListener{
             Toast.makeText(applicationContext, "Refresh!", Toast.LENGTH_SHORT).show()
             setFinishRefreshingSwipeRefresh()
@@ -103,10 +110,12 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun setFinishRefreshingSwipeRefresh() {
+        Timber.tag(TAG).d("setFinishRefreshingSwipeRefresh")
         swipeRefreshLayoutGuestMainScreen.isRefreshing = false
     }
 
     override fun setNavigationViewListener(){
+        Timber.tag(TAG).d("setNavigationViewListener")
         navigationViewGuestMainScreen.menu.clear()
         navigationViewGuestMainScreen.inflateMenu(R.menu.guest_drawer_menu)
         navigationViewGuestMainScreen.setNavigationItemSelectedListener { menuItem: MenuItem ->
@@ -128,12 +137,14 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun setSearchView(){
+        Timber.tag(TAG).d("setSearchView")
         searchGuestViewMainScreen.isActivated = true
         searchGuestViewMainScreen.isIconified = false
         searchGuestViewMainScreen.clearFocus()
     }
 
     override fun setBottomNavigationViewListener(){
+        Timber.tag(TAG).d("setBottomNavigationViewListener")
         bottomNavigationViewGuestMainScreen.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.app_bar_category -> Toast.makeText(applicationContext, "CATEGORY", Toast.LENGTH_SHORT).show()
@@ -143,9 +154,14 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.tag(TAG).d("onOptionsItemSelected")
         when (item!!.itemId) {
             android.R.id.home -> drawerLayoutGuestMainScreen.openDrawer(GravityCompat.START)
         }
         return true
+    }
+
+    companion object {
+        private const val TAG = "MainGuestActivity"
     }
 }

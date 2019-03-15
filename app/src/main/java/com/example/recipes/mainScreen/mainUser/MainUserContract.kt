@@ -17,6 +17,7 @@ interface MainUserContract {
         fun setFinishRefreshingSwipeRefresh()
         fun setAllViewsEnabled()
         fun setAllViewsUnenabled()
+        fun showError(errorMessageText: String?)
     }
 
     interface Presenter{

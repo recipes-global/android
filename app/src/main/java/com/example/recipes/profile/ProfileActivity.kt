@@ -24,6 +24,7 @@ import com.facebook.GraphRequest
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONException
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
@@ -107,6 +108,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     override fun requestEmail(currentAccessToken: AccessToken) {
+        Timber.tag(TAG).d("requestEmail: $currentAccessToken")
         val request = GraphRequest.newMeRequest(currentAccessToken,
             GraphRequest.GraphJSONObjectCallback { `object`, response ->
                 if (response.error != null) {
@@ -165,5 +167,13 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    override fun showError(errorMessageText: String?) {
+        Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
+    }
+
+    companion object {
+        private const val TAG = "ProfileActivity"
     }
 }

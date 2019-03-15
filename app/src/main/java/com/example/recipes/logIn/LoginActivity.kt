@@ -3,7 +3,6 @@ package com.example.recipes.logIn
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
@@ -19,6 +18,7 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import kotlinx.android.synthetic.main.activity_login.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(), LoginContract.View{
@@ -44,28 +44,33 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
     }
 
     override fun setLoginButton(){
+        Timber.tag(TAG).d("setLoginButton")
         loginButton.setReadPermissions("public_profile")
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$loginResult")
+                Timber.tag(TAG).d("facebook:onSuccess: ${loginResult.accessToken}")
                 goMainScreen()
             }
 
             override fun onError(error: FacebookException?) {
-                Toast.makeText(applicationContext, "onError", Toast.LENGTH_SHORT).show()
+                Timber.tag(TAG).d("facebook:onError: ${error?.message}")
+                Toast.makeText(applicationContext, error?.message, Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancel() {
+                Timber.tag(TAG).d("facebook:onCancel")
                 Toast.makeText(applicationContext, "onCancel", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     override fun setNoLoginButton() {
+        Timber.tag(TAG).d("setNoLoginButton")
         noLoginButton.setOnClickListener { goNoLoginMainScreen()}
     }
 
     private fun goMainScreen(){
+        Timber.tag(TAG).d("goMainScreen")
         SharedPreferenceManager.saveUserInPreferences(applicationContext, UserType.USER)
         val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
@@ -73,6 +78,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
     }
 
     private fun goNoLoginMainScreen(){
+        Timber.tag(TAG).d("goNoLoginMainScreen")
         SharedPreferenceManager.saveUserInPreferences(applicationContext, UserType.GUEST)
         val intent = Intent(this, MainGuestActivity::class.java)
         startActivity(intent)
@@ -85,6 +91,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
     }
 
     companion object {
-        private const val TAG = "FacebookLogin"
+        private const val TAG = "LoginActivity"
     }
 }

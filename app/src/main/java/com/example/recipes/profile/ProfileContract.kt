@@ -14,6 +14,7 @@ interface ProfileContract {
         fun goLoginScreen()
         fun displayProfileInfo(currentProfile: Profile?)
         fun requestEmail(currentAccessToken: AccessToken)
+        fun showError(errorMessageText: String?)
     }
 
     interface Presenter{

@@ -1,5 +1,7 @@
 package com.example.recipes.dagger.activity
 
+import android.app.Activity
+import android.content.Context
 import com.example.recipes.data.repositories.CardsRepository
 import dagger.Module
 import dagger.Provides
@@ -9,7 +11,7 @@ class RepositoriesModule {
 
     @Provides
     @ActivityScope
-    fun cardsRepository(): CardsRepository {
-        return CardsRepository()
+    fun cardsRepository(@ActivityContext context: Context): CardsRepository {
+        return CardsRepository(context as Activity)
     }
 }

@@ -5,6 +5,6 @@ import com.example.recipes.data.network.RecipeAPI
 
 
 class RecipeRepository {
-    private var recipeAPI: RecipeAPI = MyApplication.get().getRecipeAPI()
+    private var recipeAPI: RecipeAPI = MyApplication.get().getComponent().getRecipeAPI()
 
 }

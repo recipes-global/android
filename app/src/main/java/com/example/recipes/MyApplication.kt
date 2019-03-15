@@ -4,11 +4,9 @@ import android.app.Activity
 import android.app.Application
 import com.example.recipes.dagger.application.DaggerMyApplicationComponent
 import com.example.recipes.dagger.application.MyApplicationComponent
-import com.example.recipes.data.network.RecipeAPI
-import com.squareup.leakcanary.LeakCanary
+import timber.log.Timber
 
 class MyApplication : Application() {
-    private lateinit var recipeAPI: RecipeAPI
     private lateinit var component: MyApplicationComponent
 
     companion object {
@@ -23,16 +21,11 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        LeakCanary.install(this)
+        Timber.plant(Timber.DebugTree())
         component = DaggerMyApplicationComponent.builder().build()
-        recipeAPI = component.getRecipeAPI()
     }
 
     fun getComponent(): MyApplicationComponent {
         return component
-    }
-
-    fun getRecipeAPI(): RecipeAPI{
-        return recipeAPI
     }
 }
