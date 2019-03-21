@@ -1,17 +1,16 @@
 package com.example.recipes.profile
 
-import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.example.recipes.data.repositories.CardsRepository
-import com.example.recipes.data.repositories.CardsRepositoryInterface
 import com.facebook.AccessToken
 import com.facebook.Profile
 import com.facebook.ProfileTracker
+import io.reactivex.disposables.Disposable
 
 class ProfilePresenter(private val profileView: ProfileContract.View,
-                       private val cardsRepository: CardsRepository) : ProfileContract.Presenter,
-    CardsRepositoryInterface.OnCardDisplayListener{
+                       private val cardsRepository: CardsRepository) : ProfileContract.Presenter{
     private lateinit var  profileTracker: ProfileTracker
+    private lateinit var disposable: Disposable
 
     override fun setProfileTracker(){
         profileTracker = object : ProfileTracker() {
@@ -37,17 +36,11 @@ class ProfilePresenter(private val profileView: ProfileContract.View,
     }
 
     private fun getCardsFromServer(){
-        cardsRepository.getCards(this)
+        disposable = cardsRepository.getCards().subscribe(
+            { cardList -> profileView.setCardsRecyclerView(cardList) },
+            { error: Throwable -> profileView.showError(error.message) }
+        )
     }
-
-    override fun setCardList(cardList: List<Card>?) {
-        profileView.setCardsRecyclerView(cardList)
-    }
-
-    override fun onError(errorMessageText: String?) {
-        profileView.showError(errorMessageText)
-    }
-
 
     override fun setFirstScreen() {
         getCardsFromServer()
@@ -57,6 +50,7 @@ class ProfilePresenter(private val profileView: ProfileContract.View,
 
     override fun onDestroy() {
         profileTracker.stopTracking()
+        disposable.dispose()
     }
 
     private val friendList = listOf(

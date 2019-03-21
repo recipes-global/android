@@ -161,7 +161,16 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
         return true
     }
 
+    override fun showError(errorMessageText: String?) {
+        Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
+    }
+
     companion object {
         private const val TAG = "MainGuestActivity"
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
     }
 }

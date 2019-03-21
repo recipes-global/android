@@ -14,9 +14,11 @@ interface MainGuestContract {
         fun setSearchView()
         fun setSwipeRefreshLayout()
         fun setFinishRefreshingSwipeRefresh()
+        fun showError(errorMessageText: String?)
     }
 
     interface Presenter{
         fun setFirstScreen()
+        fun onDestroy()
     }
 }

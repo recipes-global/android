@@ -1,25 +1,13 @@
 package com.example.recipes.mainScreen.mainUser
 
-import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
-import com.example.recipes.data.repositories.CardsRepositoryInterface
 import com.facebook.login.LoginManager
+import io.reactivex.disposables.Disposable
 
 open class MainUserPresenter (private val mainView: MainUserContract.View,
                               private val cardsRepository: CardsRepository):
-    MainUserContract.Presenter, CardsRepositoryInterface.OnCardDisplayListener{
-
-    private fun getCardsFromServer(){
-        cardsRepository.getCards(this)
-    }
-
-    override fun setCardList(cardList: List<Card>?) {
-        mainView.setRecyclerView(cardList)
-    }
-
-    override fun onError(errorMessageText: String?) {
-        mainView.showError(errorMessageText)
-    }
+    MainUserContract.Presenter{
+    private lateinit var disposable: Disposable
 
     override fun setFirstScreen() {
         getCardsFromServer()
@@ -31,8 +19,19 @@ open class MainUserPresenter (private val mainView: MainUserContract.View,
         mainView.setSwipeRefreshLayout()
     }
 
+    private fun getCardsFromServer(){
+        disposable = cardsRepository.getCards().subscribe(
+            { cardList -> mainView.setRecyclerView(cardList) },
+            { error: Throwable -> mainView.showError(error.message) }
+        )
+    }
+
     override fun logout() {
         LoginManager.getInstance().logOut()
         mainView.goLoginScreen()
+    }
+
+    override fun onDestroy() {
+        disposable.dispose()
     }
 }

@@ -13,10 +13,6 @@ class MyApplication : Application() {
         fun get(activity: Activity): MyApplication{
             return activity.application as MyApplication
         }
-
-        fun get(): MyApplication{
-            return MyApplication()
-        }
     }
 
     override fun onCreate() {

@@ -1,6 +1,5 @@
 package com.example.recipes.mainScreen.mainUser
 
-import android.content.Context
 import com.example.recipes.data.model.Card
 
 interface MainUserContract {
@@ -23,5 +22,6 @@ interface MainUserContract {
     interface Presenter{
         fun setFirstScreen()
         fun logout()
+        fun onDestroy()
     }
 }
