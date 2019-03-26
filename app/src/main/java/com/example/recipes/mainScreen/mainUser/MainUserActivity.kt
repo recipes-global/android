@@ -22,7 +22,6 @@ import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityModule
 import com.example.recipes.data.model.Card
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.MainCardsAdapter
-import com.example.recipes.mainScreen.mainGuest.MainGuestActivity
 import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.drawer_header.view.*

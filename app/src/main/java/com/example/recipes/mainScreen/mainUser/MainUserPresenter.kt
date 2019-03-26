@@ -21,7 +21,7 @@ open class MainUserPresenter (private val mainView: MainUserContract.View,
 
     private fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
-            { 
+            {
                     cardList -> mainView.setRecyclerView(cardList)
             },
             {
