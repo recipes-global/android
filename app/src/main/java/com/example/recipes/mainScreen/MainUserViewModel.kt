@@ -1,28 +1,28 @@
-package com.example.recipes.mainScreen.mainUser
+package com.example.recipes.mainScreen
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.recipes.dagger.application.DaggerMyApplicationComponent
-import com.example.recipes.dagger.application.MyApplicationComponent
-import com.example.recipes.dagger.mainScreen.mainUser.DaggerMainUserViewModelComponent
-import com.example.recipes.dagger.mainScreen.mainUser.MainUserViewModelComponent
+import com.example.recipes.dagger.mainScreen.DaggerMainScreenViewModelComponent
+import com.example.recipes.dagger.mainScreen.MainScreenViewModelComponent
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.facebook.login.LoginManager
 import io.reactivex.disposables.Disposable
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainUserViewModel : ViewModel() {
     private lateinit var disposable: Disposable
-    var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
+    private var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
     private var errorLiveData: MutableLiveData<String> = MutableLiveData()
 
     @Inject
     lateinit var cardsRepository: CardsRepository
 
     init {
-        val component: MainUserViewModelComponent = DaggerMainUserViewModelComponent.builder()
+        val component: MainScreenViewModelComponent = DaggerMainScreenViewModelComponent.builder()
             .myApplicationComponent(DaggerMyApplicationComponent.builder().build())
             .build()
 
@@ -42,10 +42,12 @@ class MainUserViewModel : ViewModel() {
     private fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
             {
-                    cardList -> cardListLiveData.postValue(cardList)
+            cardList -> cardListLiveData.postValue(cardList)
+                        Timber.tag(TAG).d(cardList.toString())
             },
             {
-                    error: Throwable -> errorLiveData.postValue(error.message)
+            error: Throwable -> errorLiveData.postValue(error.message)
+                        Timber.tag(TAG).d(error.message)
             }
         )
     }
@@ -57,5 +59,9 @@ class MainUserViewModel : ViewModel() {
     override fun onCleared() {
         disposable.dispose()
         super.onCleared()
+    }
+
+    companion object {
+        private const val TAG = "MainUserViewModel"
     }
 }

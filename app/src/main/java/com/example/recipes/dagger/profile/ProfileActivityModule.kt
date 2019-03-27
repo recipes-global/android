@@ -1,22 +1,23 @@
 package com.example.recipes.dagger.profile
 
-import com.example.recipes.data.repositories.CardsRepository
-import com.example.recipes.profile.ProfileContract
-import com.example.recipes.profile.ProfilePresenter
+import androidx.lifecycle.ViewModelProviders
+import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityScope
+import com.example.recipes.profile.ProfileActivity
+import com.example.recipes.profile.ProfileViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
-class ProfileActivityModule(private val profileView: ProfileContract.View) {
+class ProfileActivityModule(private val activity: ProfileActivity) {
     @Provides
     @ProfileActivityScope
-    fun profileView(): ProfileContract.View{
-        return profileView
+    fun profileActivity(): ProfileActivity {
+        return activity
     }
 
     @Provides
     @ProfileActivityScope
-    fun presenter(cardsRepository: CardsRepository): ProfileContract.Presenter{
-        return ProfilePresenter(profileView, cardsRepository)
+    fun viewModel(): ProfileViewModel {
+        return ViewModelProviders.of(activity).get(ProfileViewModel::class.java)
     }
 }

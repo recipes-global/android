@@ -1,4 +1,4 @@
-package com.example.recipes.dagger.mainScreen.mainUser
+package com.example.recipes.dagger.viewModel
 
 import javax.inject.Scope
 

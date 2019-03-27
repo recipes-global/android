@@ -1,13 +1,13 @@
 package com.example.recipes.profile
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
@@ -23,23 +23,26 @@ import com.example.recipes.dagger.profile.ProfileActivityComponent
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
+import com.facebook.ProfileTracker
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONException
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProfileActivity : AppCompatActivity(), ProfileContract.View {
-/*    @Inject
-    lateinit var presenter: ProfileContract.Presenter*/
+class ProfileActivity : AppCompatActivity() {
+    private lateinit var  profileTracker: ProfileTracker
 
     @Inject
-    lateinit var linearLayoutManagerCards: LinearLayoutManager
+    lateinit var linearLayoutManagerCards: androidx.recyclerview.widget.LinearLayoutManager
 
     @Inject
     lateinit var adapterCards: MainCardsAdapter
 
     @Inject
     lateinit var adapterFriends: FriendsAdapter
+
+    @Inject
+    lateinit var profileViewModel: ProfileViewModel
 
     private var linearLayoutManagerFriends: LinearLayoutManager? = null
     private var email: String? = null
@@ -48,6 +51,14 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        setDaggerComponent()
+        setViewModelObserver()
+        setProfileTracker()
+        setToolbar()
+    }
+
+    private fun setDaggerComponent() {
+        Timber.tag(TAG).d("setDaggerComponent")
         val activityComponent: ProfileActivityComponent = DaggerProfileActivityComponent.builder()
             .profileActivityModule(ProfileActivityModule(this))
             .activityComponent(DaggerActivityComponent.builder()
@@ -55,19 +66,46 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
             .build()
 
         activityComponent.injectProfileActivity(this)
-
-//        presenter.setProfileTracker()
- //       presenter.setFirstScreen()
     }
 
-    override fun setToolbar() {
+    private fun setViewModelObserver(){
+        Timber.tag(TAG).d("setViewModelObserver")
+        profileViewModel.getCardList().observe(this, Observer { setCardsRecyclerView(it) })
+        profileViewModel.getFriendList().observe(this, Observer { setFriendsRecyclerView(it) })
+        profileViewModel.getError().observe(this, Observer { showError(it) })
+    }
+
+    private fun setProfileTracker(){
+        profileTracker = object : ProfileTracker() {
+            override fun onCurrentProfileChanged(oldProfile: Profile?, currentProfile: Profile?) {
+                if (currentProfile != null) {
+                    displayProfileInfo(currentProfile)
+                }
+            }
+        }
+
+        if(AccessToken.getCurrentAccessToken() == null){
+            goLoginScreen()
+        }else{
+            requestEmail(AccessToken.getCurrentAccessToken())
+
+            val profile = Profile.getCurrentProfile()
+            if(profile != null){
+                displayProfileInfo(profile)
+            }else{
+                Profile.fetchProfileForCurrentAccessToken()
+            }
+        }
+    }
+
+    private fun setToolbar() {
         setSupportActionBar(toolbarProfile)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_18dp)
     }
 
-    override fun setFriendsRecyclerView(friendList: List<Friend>?) {
+    private fun setFriendsRecyclerView(friendList: List<Friend>?) {
         if(friendList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
@@ -78,11 +116,15 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     private fun setLinearLayoutForFriendsRecyclerView() {
         friendsRecyclerView.adapter = adapterFriends
-        linearLayoutManagerFriends = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        linearLayoutManagerFriends = androidx.recyclerview.widget.LinearLayoutManager(
+            this,
+            androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
+            false
+        )
         friendsRecyclerView.layoutManager = linearLayoutManagerFriends
     }
 
-    override fun setCardsRecyclerView(cardList: List<Card>?) {
+    private fun setCardsRecyclerView(cardList: List<Card>?) {
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
@@ -96,20 +138,20 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         myRecipesRecyclerView.layoutManager = linearLayoutManagerCards
     }
 
-    override fun goMainActivity() {
+    private fun goMainActivity() {
         val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    override fun goLoginScreen() {
+    private fun goLoginScreen() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
     }
 
-    override fun requestEmail(currentAccessToken: AccessToken) {
+    private fun requestEmail(currentAccessToken: AccessToken) {
         Timber.tag(TAG).d("requestEmail: $currentAccessToken")
         val request = GraphRequest.newMeRequest(currentAccessToken,
             GraphRequest.GraphJSONObjectCallback { `object`, response ->
@@ -134,7 +176,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
         this.email = email
     }
 
-    override fun displayProfileInfo(currentProfile: Profile?) {
+    private fun displayProfileInfo(currentProfile: Profile?) {
         val name = currentProfile?.name
         val photoUrl = currentProfile?.getProfilePictureUri(100, 100).toString()
 
@@ -161,18 +203,16 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, MainUserActivity::class.java)
-        startActivity(intent)
-        finish()
+        goMainActivity()
+    }
+
+    private fun showError(errorMessageText: String?) {
+        Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //presenter.onDestroy()
-    }
-
-    override fun showError(errorMessageText: String?) {
-        Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
+        profileTracker.stopTracking()
     }
 
     companion object {

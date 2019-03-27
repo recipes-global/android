@@ -2,8 +2,8 @@ package com.example.recipes
 
 import android.content.Context
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -16,7 +16,7 @@ import com.example.recipes.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.card_view_recipe.view.*
 
 open class MainCardsAdapter (private val context: Context):
-                        RecyclerView.Adapter<MainCardsAdapter.ViewHolder>(){
+                        androidx.recyclerview.widget.RecyclerView.Adapter<MainCardsAdapter.ViewHolder>(){
     private var cardsList: List<Card>? = null
 
     fun setCardList(cardsList: List<Card>?){
@@ -57,7 +57,7 @@ open class MainCardsAdapter (private val context: Context):
         animateCircularReveal(viewHolder.itemView)
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view){
         fun bind(card: Card, context: Context){
             val user = SharedPreferenceManager.getUserInPreferences(context)
             if (user == UserType.USER){
