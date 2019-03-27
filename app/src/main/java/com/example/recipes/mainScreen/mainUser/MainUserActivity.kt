@@ -1,14 +1,16 @@
 package com.example.recipes.mainScreen.mainUser
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.recipes.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_user_main.*
@@ -28,15 +30,20 @@ import kotlinx.android.synthetic.main.drawer_header.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainUserActivity : AppCompatActivity(), MainUserContract.View {
-    @Inject
-    lateinit var presenter: MainUserContract.Presenter
 
+class MainUserActivity : AppCompatActivity(), MainUserContract.View {
+
+    /*  @Inject
+      lateinit var presenter: MainUserContract.Presenter
+  */
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
     lateinit var adapterCards: MainCardsAdapter
+
+    @Inject
+    lateinit var mainUserViewModel: MainUserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +57,19 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
 
         component.injectMainUserActivity(this)
 
-        presenter.setFirstScreen()
+        mainUserViewModel.getCardList().observe(this, Observer { setRecyclerView(it) })
+
+//        presenter.setFirstScreen()
+        setFirstScreen()
+    }
+
+    private fun setFirstScreen(){
+        setToolbar()
+        setListeners()
+        setNavigationViewListener()
+        setBottomNavigationViewListener()
+        setSearchView()
+        setSwipeRefreshLayout()
     }
 
     private fun goProfileScreen(){
@@ -164,7 +183,9 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
                     Toast.LENGTH_SHORT).show()
                 R.id.send_error_nav -> Toast.makeText(applicationContext, resources.getString(R.string.send_error),
                     Toast.LENGTH_SHORT).show()
-                R.id.logout_nav -> presenter.logout()
+                R.id.logout_nav -> Toast.makeText(applicationContext, resources.getString(R.string.send_error),
+                    Toast.LENGTH_SHORT).show()
+                //presenter.logout()
 
             }
             false
@@ -246,7 +267,7 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+  //      presenter.onDestroy()
         super.onDestroy()
     }
 }

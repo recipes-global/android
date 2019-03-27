@@ -34,6 +34,7 @@ class ProfilePresenter(private val profileView: ProfileContract.View,
             }
         }
     }
+/*
 
     private fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
@@ -41,9 +42,10 @@ class ProfilePresenter(private val profileView: ProfileContract.View,
             { error: Throwable -> profileView.showError(error.message) }
         )
     }
+*/
 
     override fun setFirstScreen() {
-        getCardsFromServer()
+  //      getCardsFromServer()
         profileView.setToolbar()
         profileView.setFriendsRecyclerView(friendList)
     }

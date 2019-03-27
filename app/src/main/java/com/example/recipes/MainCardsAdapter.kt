@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.example.recipes.data.model.Card
 import com.example.recipes.utils.UserType

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.example.recipes.mainScreen.mainUser.MainUserActivity
 import com.example.recipes.R
@@ -28,8 +29,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
-    @Inject
-    lateinit var presenter: ProfileContract.Presenter
+/*    @Inject
+    lateinit var presenter: ProfileContract.Presenter*/
 
     @Inject
     lateinit var linearLayoutManagerCards: LinearLayoutManager
@@ -55,8 +56,8 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
         activityComponent.injectProfileActivity(this)
 
-        presenter.setProfileTracker()
-        presenter.setFirstScreen()
+//        presenter.setProfileTracker()
+ //       presenter.setFirstScreen()
     }
 
     override fun setToolbar() {
@@ -167,7 +168,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        //presenter.onDestroy()
     }
 
     override fun showError(errorMessageText: String?) {

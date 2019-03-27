@@ -22,8 +22,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(), LoginContract.View{
+/*
     @Inject
     lateinit var presenter: LoginContract.Presenter
+*/
 
     @Inject
     lateinit var callbackManager: CallbackManager
@@ -40,7 +42,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
 
         activityComponent.injectLoginActivity(this)
 
-        presenter.setFirstScreen()
+//        presenter.setFirstScreen()
     }
 
     override fun setLoginButton(){

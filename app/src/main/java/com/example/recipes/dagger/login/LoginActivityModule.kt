@@ -15,11 +15,11 @@ class LoginActivityModule(private val loginView: LoginContract.View) {
         return loginView
     }
 
-    @Provides
+/*    @Provides
     @LoginActivityScope
     fun presenter(cardsRepository: CardsRepository): LoginContract.Presenter{
         return LoginPresenter(loginView, cardsRepository)
-    }
+    }*/
 
     @Provides
     @LoginActivityScope

@@ -1,5 +1,6 @@
 package com.example.recipes.profile
 
+import androidx.lifecycle.LiveData
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.facebook.AccessToken

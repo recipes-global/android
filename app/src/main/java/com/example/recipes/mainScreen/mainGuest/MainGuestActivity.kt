@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import com.example.recipes.R
 import com.example.recipes.dagger.activity.ActivityModule
 import com.example.recipes.dagger.activity.DaggerActivityComponent
@@ -23,8 +24,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
+/*
     @Inject
     lateinit var presenter: MainGuestContract.Presenter
+*/
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
@@ -44,7 +47,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
             .build()
 
         component.injectMainGuestActivity(this)
-        presenter.setFirstScreen()
+//        presenter.setFirstScreen()
     }
 
     override fun goLoginScreen() {
@@ -170,7 +173,7 @@ class MainGuestActivity : AppCompatActivity(), MainGuestContract.View {
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+ //       presenter.onDestroy()
         super.onDestroy()
     }
 }

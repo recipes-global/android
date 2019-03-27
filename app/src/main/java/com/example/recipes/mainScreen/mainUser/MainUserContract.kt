@@ -1,5 +1,6 @@
 package com.example.recipes.mainScreen.mainUser
 
+import androidx.lifecycle.LiveData
 import com.example.recipes.data.model.Card
 
 interface MainUserContract {

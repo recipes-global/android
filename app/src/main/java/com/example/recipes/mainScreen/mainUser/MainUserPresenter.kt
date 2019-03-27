@@ -10,7 +10,7 @@ open class MainUserPresenter (private val mainView: MainUserContract.View,
     private lateinit var disposable: Disposable
 
     override fun setFirstScreen() {
-        getCardsFromServer()
+  //      getCardsFromServer()
         mainView.setToolbar()
         mainView.setListeners()
         mainView.setNavigationViewListener()
@@ -19,6 +19,7 @@ open class MainUserPresenter (private val mainView: MainUserContract.View,
         mainView.setSwipeRefreshLayout()
     }
 
+/*
     private fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
             {
@@ -29,6 +30,7 @@ open class MainUserPresenter (private val mainView: MainUserContract.View,
             }
         )
     }
+*/
 
     override fun logout() {
         LoginManager.getInstance().logOut()

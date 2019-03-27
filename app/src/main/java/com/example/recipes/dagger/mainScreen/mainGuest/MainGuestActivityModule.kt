@@ -15,9 +15,9 @@ class MainGuestActivityModule(private val mainView: MainGuestContract.View) {
         return mainView
     }
 
-    @Provides
+/*    @Provides
     @MainGuestActivityScope
     fun presenter(cardsRepository: CardsRepository): MainGuestContract.Presenter{
         return MainGuestPresenter(mainView, cardsRepository)
-    }
+    }*/
 }

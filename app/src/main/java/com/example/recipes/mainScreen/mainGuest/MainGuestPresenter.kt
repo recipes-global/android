@@ -9,7 +9,7 @@ class MainGuestPresenter(private val mainGuestView: MainGuestContract.View,
     private lateinit var disposable: Disposable
 
     override fun setFirstScreen() {
-        getCardsFromServer()
+  //      getCardsFromServer()
         mainGuestView.setToolbar()
         mainGuestView.setNavigationViewListener()
         mainGuestView.setBottomNavigationViewListener()
@@ -17,12 +17,12 @@ class MainGuestPresenter(private val mainGuestView: MainGuestContract.View,
         mainGuestView.setSwipeRefreshLayout()
     }
 
-    private fun getCardsFromServer(){
+/*    private fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
             { cardList -> mainGuestView.setRecyclerView(cardList) },
             { error: Throwable -> mainGuestView.showError(error.message) }
         )
-    }
+    }*/
 
     override fun onDestroy() {
         disposable.dispose()

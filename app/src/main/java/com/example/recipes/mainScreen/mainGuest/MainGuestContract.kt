@@ -1,6 +1,7 @@
 package com.example.recipes.mainScreen.mainGuest
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.recipes.data.model.Card
 
 interface MainGuestContract {
