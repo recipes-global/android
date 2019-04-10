@@ -73,6 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         profileViewModel.getCardList().observe(this, Observer { setCardsRecyclerView(it) })
         profileViewModel.getFriendList().observe(this, Observer { setFriendsRecyclerView(it) })
         profileViewModel.getError().observe(this, Observer { showError(it) })
+        profileViewModel.getFriendCount().observe(this, Observer { friendsCountTextView.text = it.toString() })
     }
 
     private fun setProfileTracker(){

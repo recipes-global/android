@@ -18,6 +18,7 @@ class ProfileViewModel : ViewModel() {
     private var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
     private var errorLiveData: MutableLiveData<String> = MutableLiveData()
     private var friendListLiveData: MutableLiveData<List<Friend>> = MutableLiveData()
+    private var friendCountLiveData: MutableLiveData<Int> = MutableLiveData()
 
     @Inject
     lateinit var cardsRepository: CardsRepository
@@ -44,6 +45,7 @@ class ProfileViewModel : ViewModel() {
         )
 
         friendListLiveData.postValue(friendList)
+        friendCountLiveData.postValue(friendList.size)
     }
 
     fun getCardList(): LiveData<List<Card>> {
@@ -56,6 +58,10 @@ class ProfileViewModel : ViewModel() {
 
     fun getFriendList(): LiveData<List<Friend>> {
         return friendListLiveData
+    }
+
+    fun getFriendCount(): LiveData<Int> {
+        return friendCountLiveData
     }
 
     private fun getCardsFromServer(){
