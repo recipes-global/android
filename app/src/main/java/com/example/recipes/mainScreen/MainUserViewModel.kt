@@ -39,15 +39,15 @@ class MainUserViewModel : ViewModel() {
         return errorLiveData
     }
 
-    private fun getCardsFromServer(){
+    fun getCardsFromServer(){
         disposable = cardsRepository.getCards().subscribe(
             {
             cardList -> cardListLiveData.postValue(cardList)
-                        Timber.tag(TAG).d(cardList.toString())
+                        Timber.tag(TAG).d("cardList: %s", cardList.toString())
             },
             {
             error: Throwable -> errorLiveData.postValue(error.message)
-                        Timber.tag(TAG).d(error.message)
+                        Timber.tag(TAG).d("Error message: %s", error.message)
             }
         )
     }

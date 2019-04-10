@@ -152,6 +152,7 @@ class MainUserActivity : AppCompatActivity() {
     private fun setSwipeRefreshLayout() {
         Timber.tag(TAG).d("setSwipeRefreshLayout")
         swipeRefreshLayoutMainScreen.setOnRefreshListener{
+            mainUserViewModel.getCardsFromServer()
             Toast.makeText(applicationContext, "Refresh!", Toast.LENGTH_SHORT).show()
             setFinishRefreshingSwipeRefresh()
         }
