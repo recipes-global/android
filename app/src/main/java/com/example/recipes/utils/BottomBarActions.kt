@@ -1,6 +1,6 @@
 package com.example.recipes.utils
 
-import android.support.design.widget.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.view.animation.TranslateAnimation
 
 class BottomBarActions {

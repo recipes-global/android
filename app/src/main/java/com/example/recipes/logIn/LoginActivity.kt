@@ -1,7 +1,7 @@
 package com.example.recipes.logIn
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.recipes.mainScreen.mainUser.MainUserActivity
@@ -21,10 +21,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity(), LoginContract.View{
-    @Inject
-    lateinit var presenter: LoginContract.Presenter
-
+class LoginActivity : AppCompatActivity(){
     @Inject
     lateinit var callbackManager: CallbackManager
 
@@ -32,6 +29,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        setDaggerComponent()
+        setFirstScreen()
+    }
+
+    private fun setDaggerComponent() {
+        Timber.tag(TAG).d("setDaggerComponent")
         val activityComponent: LoginActivityComponent = DaggerLoginActivityComponent.builder()
             .loginActivityModule(LoginActivityModule(this))
             .activityComponent(DaggerActivityComponent.builder()
@@ -39,11 +42,15 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
             .build()
 
         activityComponent.injectLoginActivity(this)
-
-        presenter.setFirstScreen()
     }
 
-    override fun setLoginButton(){
+    private fun setFirstScreen() {
+        Timber.tag(TAG).d("setFirstScreen")
+        setLoginButton()
+        setNoLoginButton()
+    }
+
+    private fun setLoginButton(){
         Timber.tag(TAG).d("setLoginButton")
         loginButton.setReadPermissions("public_profile")
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -64,7 +71,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View{
         })
     }
 
-    override fun setNoLoginButton() {
+    private fun setNoLoginButton() {
         Timber.tag(TAG).d("setNoLoginButton")
         noLoginButton.setOnClickListener { goNoLoginMainScreen()}
     }

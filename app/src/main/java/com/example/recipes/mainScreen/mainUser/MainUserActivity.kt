@@ -1,14 +1,15 @@
 package com.example.recipes.mainScreen.mainUser
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.recipes.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_user_main.*
@@ -22,27 +23,35 @@ import com.example.recipes.dagger.mainScreen.mainUser.MainUserActivityModule
 import com.example.recipes.data.model.Card
 import com.example.recipes.logIn.LoginActivity
 import com.example.recipes.MainCardsAdapter
-import com.example.recipes.mainScreen.mainGuest.MainGuestActivity
+import com.example.recipes.mainScreen.MainUserViewModel
 import com.example.recipes.utils.BottomBarActions
 import com.facebook.Profile
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainUserActivity : AppCompatActivity(), MainUserContract.View {
-    @Inject
-    lateinit var presenter: MainUserContract.Presenter
 
+class MainUserActivity : AppCompatActivity() {
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
     lateinit var adapterCards: MainCardsAdapter
 
+    @Inject
+    lateinit var mainUserViewModel: MainUserViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
 
+        setDaggerComponent()
+        setViewModelObserver()
+        setFirstScreen()
+    }
+
+    private fun setDaggerComponent(){
+        Timber.tag(TAG).d("setDaggerComponent")
         val component: MainUserActivityComponent = DaggerMainUserActivityComponent.builder()
             .mainUserActivityModule(MainUserActivityModule(this))
             .activityComponent(DaggerActivityComponent.builder()
@@ -50,8 +59,22 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
             .build()
 
         component.injectMainUserActivity(this)
+    }
 
-        presenter.setFirstScreen()
+    private fun setViewModelObserver(){
+        Timber.tag(TAG).d("setViewModelObserver")
+        mainUserViewModel.getCardList().observe(this, Observer { setRecyclerView(it) })
+        mainUserViewModel.getError().observe(this, Observer { showError(it) })
+    }
+
+    private fun setFirstScreen(){
+        Timber.tag(TAG).d("setFirstScreen")
+        setToolbar()
+        setListeners()
+        setNavigationViewListener()
+        setBottomNavigationViewListener()
+        setSearchView()
+        setSwipeRefreshLayout()
     }
 
     private fun goProfileScreen(){
@@ -61,7 +84,7 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         finish()
     }
 
-    override fun goLoginScreen() {
+    private fun goLoginScreen() {
         Timber.tag(TAG).d("goLoginScreen")
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -69,7 +92,7 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         finish()
     }
 
-    override fun setToolbar(){
+    private fun setToolbar(){
         Timber.tag(TAG).d("setToolbar")
         setSupportActionBar(toolbarMainScreen)
         val actionBar = supportActionBar
@@ -77,7 +100,7 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
     }
 
-    override fun setListeners() {
+    private fun setListeners() {
         Timber.tag(TAG).d("setListeners")
         addRecipeFab.setOnClickListener{ startAddFragment() }
     }
@@ -92,7 +115,7 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         setAllViewsUnenabled()
     }
 
-    override fun setRecyclerView(cardList: List<Card>?) {
+    private fun setRecyclerView(cardList: List<Card>?) {
         Timber.tag(TAG).d("setRecyclerView")
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
@@ -109,10 +132,10 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         RecyclerViewMainScreen.layoutManager = linearLayoutManager
     }
 
-    override fun setSwipeRefreshLayoutEnabledStatus() {
+    private fun setSwipeRefreshLayoutEnabledStatus() {
         Timber.tag(TAG).d("setSwipeRefreshLayoutEnabledStatus")
-        RecyclerViewMainScreen.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        RecyclerViewMainScreen.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 swipeRefreshLayoutMainScreen.isEnabled =
                         linearLayoutManager.findFirstVisibleItemPosition() == 0
@@ -126,9 +149,10 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         })
     }
 
-    override fun setSwipeRefreshLayout() {
+    private fun setSwipeRefreshLayout() {
         Timber.tag(TAG).d("setSwipeRefreshLayout")
         swipeRefreshLayoutMainScreen.setOnRefreshListener{
+            mainUserViewModel.getCardsFromServer()
             Toast.makeText(applicationContext, "Refresh!", Toast.LENGTH_SHORT).show()
             setFinishRefreshingSwipeRefresh()
         }
@@ -139,12 +163,12 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
             android.R.color.holo_blue_dark)
     }
 
-    override fun setFinishRefreshingSwipeRefresh() {
+    private fun setFinishRefreshingSwipeRefresh() {
         Timber.tag(TAG).d("setFinishRefreshingSwipeRefresh")
         swipeRefreshLayoutMainScreen.isRefreshing = false
     }
 
-    override fun setNavigationViewListener(){
+    private fun setNavigationViewListener(){
         Timber.tag(TAG).d("setNavigationViewListener")
         setNavigationHeader()
         navigationViewMainScreen.menu.clear()
@@ -165,8 +189,10 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
                     Toast.LENGTH_SHORT).show()
                 R.id.send_error_nav -> Toast.makeText(applicationContext, resources.getString(R.string.send_error),
                     Toast.LENGTH_SHORT).show()
-                R.id.logout_nav -> presenter.logout()
-
+                R.id.logout_nav -> {
+                    mainUserViewModel.logout()
+                    goLoginScreen()
+                }
             }
             false
         }
@@ -188,14 +214,14 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         }
     }
 
-    override fun setSearchView(){
+    private fun setSearchView(){
         Timber.tag(TAG).d("setSearchView")
         searchViewMainScreen.isActivated = true
         searchViewMainScreen.isIconified = false
         searchViewMainScreen.clearFocus()
     }
 
-    override fun setBottomNavigationViewListener(){
+    private fun setBottomNavigationViewListener(){
         Timber.tag(TAG).d("setBottomNavigationViewListener")
         bottomNavigationViewMainScreen.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -224,30 +250,25 @@ class MainUserActivity : AppCompatActivity(), MainUserContract.View {
         return true
     }
 
-    override fun setAllViewsEnabled() {
+    private fun setAllViewsEnabled() {
         Timber.tag(TAG).d("setAllViewsEnabled")
         toolbarMainScreen.isClickable = true
         bottomNavigationViewMainScreen.isClickable = true
         RecyclerViewMainScreen.isClickable = true
     }
 
-    override fun setAllViewsUnenabled() {
+    private fun setAllViewsUnenabled() {
         Timber.tag(TAG).d("setAllViewsUnenabled")
         toolbarMainScreen.isClickable = false
         bottomNavigationViewMainScreen.isClickable = false
         RecyclerViewMainScreen.isClickable = false
     }
 
-    override fun showError(errorMessageText: String?) {
+    private fun showError(errorMessageText: String?) {
         Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
     }
 
     companion object {
         private const val TAG = "MainUserActivity"
-    }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
     }
 }

@@ -1,23 +1,22 @@
 package com.example.recipes.dagger.mainScreen.mainUser
 
-import com.example.recipes.data.repositories.CardsRepository
-import com.example.recipes.mainScreen.mainUser.MainUserContract
-import com.example.recipes.mainScreen.mainUser.MainUserPresenter
+import androidx.lifecycle.ViewModelProviders
+import com.example.recipes.mainScreen.mainUser.MainUserActivity
+import com.example.recipes.mainScreen.MainUserViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
-class MainUserActivityModule(private val mainView: MainUserContract.View) {
-
+class MainUserActivityModule(private val activity: MainUserActivity) {
     @Provides
     @MainUserActivityScope
-    fun mainActivityView(): MainUserContract.View{
-        return mainView
+    fun mainUserActivity(): MainUserActivity{
+        return activity
     }
 
     @Provides
     @MainUserActivityScope
-    fun presenter(cardsRepository: CardsRepository): MainUserContract.Presenter{
-        return MainUserPresenter(mainView, cardsRepository)
+    fun viewModel(): MainUserViewModel {
+        return ViewModelProviders.of(activity).get(MainUserViewModel::class.java)
     }
 }

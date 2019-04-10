@@ -2,8 +2,8 @@ package com.example.recipes.profile
 
 import android.content.Context
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -14,7 +14,7 @@ import com.example.recipes.data.model.Friend
 import kotlinx.android.synthetic.main.friend_one_card.view.*
 
 class FriendsAdapter (private val context: Context?):
-                    RecyclerView.Adapter<FriendsAdapter.ViewHolder>(){
+                    androidx.recyclerview.widget.RecyclerView.Adapter<FriendsAdapter.ViewHolder>(){
     private var friendsList: List<Friend>? = null
 
     fun setFriendsList(friendsList: List<Friend>?){
@@ -55,7 +55,7 @@ class FriendsAdapter (private val context: Context?):
         animateCircularReveal(viewHolder.itemView)
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view){
         fun bind(friend: Friend, context: Context?){
             itemView.friendTextView.text = friend.name
             if(context != null){

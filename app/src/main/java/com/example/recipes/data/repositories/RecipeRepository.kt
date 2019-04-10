@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 
 
 class RecipeRepository(activity: Activity): RecipeRepositoryInterface {
-    private var recipeAPI: RecipeAPI = MyApplication.get(activity).getComponent().getRecipeAPI()
+    private val recipeAPI: RecipeAPI = MyApplication.get(activity).recipeAPI
 
     override fun getRecipe(): Single<List<Recipe>> {
         return recipeAPI.getRecipe()
