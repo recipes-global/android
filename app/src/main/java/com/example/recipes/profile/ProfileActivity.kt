@@ -76,6 +76,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setProfileTracker(){
+        Timber.tag(TAG).d("setProfileTracker")
         profileTracker = object : ProfileTracker() {
             override fun onCurrentProfileChanged(oldProfile: Profile?, currentProfile: Profile?) {
                 if (currentProfile != null) {
@@ -99,6 +100,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setToolbar() {
+        Timber.tag(TAG).d("setToolbar")
         setSupportActionBar(toolbarProfile)
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -106,6 +108,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setFriendsRecyclerView(friendList: List<Friend>?) {
+        Timber.tag(TAG).d("setFriendsRecyclerView")
         if(friendList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
@@ -115,6 +118,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setLinearLayoutForFriendsRecyclerView() {
+        Timber.tag(TAG).d("setLinearLayoutForFriendsRecyclerView")
         friendsRecyclerView.adapter = adapterFriends
         linearLayoutManagerFriends = androidx.recyclerview.widget.LinearLayoutManager(
             this,
@@ -125,6 +129,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setCardsRecyclerView(cardList: List<Card>?) {
+        Timber.tag(TAG).d("setCardsRecyclerView")
         if(cardList == null){
             Toast.makeText(applicationContext, "Brak kart do wyświetlenia!", Toast.LENGTH_SHORT).show()
         }else{
@@ -134,17 +139,20 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setLinearLayoutForCardsRecyclerView() {
+        Timber.tag(TAG).d("setLinearLayoutForCardsRecyclerView")
         myRecipesRecyclerView.adapter = adapterCards
         myRecipesRecyclerView.layoutManager = linearLayoutManagerCards
     }
 
     private fun goMainActivity() {
+        Timber.tag(TAG).d("goMainActivity")
         val intent = Intent(this, MainUserActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun goLoginScreen() {
+        Timber.tag(TAG).d("goLoginScreen")
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
@@ -173,10 +181,12 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setEmail(email: String) {
+        Timber.tag(TAG).d("setEmail")
         this.email = email
     }
 
     private fun displayProfileInfo(currentProfile: Profile?) {
+        Timber.tag(TAG).d("displayProfileInfo")
         val name = currentProfile?.name
         val photoUrl = currentProfile?.getProfilePictureUri(100, 100).toString()
 
@@ -188,6 +198,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Timber.tag(TAG).d("onCreateOptionsMenu")
         val inflater = menuInflater
         inflater.inflate(R.menu.settings, menu)
 
@@ -195,6 +206,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.tag(TAG).d("onOptionsItemSelected")
         when (item!!.itemId) {
             R.id.app_bar_settings_profile -> Toast.makeText(applicationContext, "SETTINGS", Toast.LENGTH_SHORT).show()
             android.R.id.home -> onBackPressed()
@@ -203,14 +215,17 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        Timber.tag(TAG).d("onBackPressed")
         goMainActivity()
     }
 
     private fun showError(errorMessageText: String?) {
+        Timber.tag(TAG).d("showError")
         Toast.makeText(this, errorMessageText, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
+        Timber.tag(TAG).d("onDestroy")
         super.onDestroy()
         profileTracker.stopTracking()
     }

@@ -9,16 +9,11 @@ import com.example.recipes.dagger.profile.ProfileViewModelComponent
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.example.recipes.data.repositories.CardsRepository
-import com.facebook.AccessToken
-import com.facebook.Profile
-import com.facebook.ProfileTracker
-import com.facebook.login.LoginManager
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileViewModel : ViewModel() {
-    private lateinit var  profileTracker: ProfileTracker
     private lateinit var disposable: Disposable
     private var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
     private var errorLiveData: MutableLiveData<String> = MutableLiveData()
