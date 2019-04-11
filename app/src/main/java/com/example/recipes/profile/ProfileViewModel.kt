@@ -9,12 +9,12 @@ import com.example.recipes.dagger.profile.ProfileViewModelComponent
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.model.Friend
 import com.example.recipes.data.repositories.CardsRepository
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileViewModel : ViewModel() {
-    private lateinit var disposable: Disposable
+    private val compositeDisposable = CompositeDisposable()
     private var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
     private var errorLiveData: MutableLiveData<String> = MutableLiveData()
     private var friendListLiveData: MutableLiveData<List<Friend>> = MutableLiveData()
@@ -65,7 +65,7 @@ class ProfileViewModel : ViewModel() {
     }
 
     private fun getCardsFromServer(){
-        disposable = cardsRepository.getCards().subscribe(
+        val disposable = cardsRepository.getCards().subscribe(
             {
                     cardList -> cardListLiveData.postValue(cardList)
                 Timber.tag(TAG).d(cardList.toString())
@@ -75,10 +75,11 @@ class ProfileViewModel : ViewModel() {
                 Timber.tag(TAG).d(error.message)
             }
         )
+        compositeDisposable.add(disposable)
     }
 
     override fun onCleared() {
-        disposable.dispose()
+        compositeDisposable.clear()
         super.onCleared()
     }
 

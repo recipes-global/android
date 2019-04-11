@@ -9,12 +9,13 @@ import com.example.recipes.dagger.mainScreen.MainScreenViewModelComponent
 import com.example.recipes.data.model.Card
 import com.example.recipes.data.repositories.CardsRepository
 import com.facebook.login.LoginManager
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainUserViewModel : ViewModel() {
-    private lateinit var disposable: Disposable
+    private val compositeDisposable = CompositeDisposable()
     private var cardListLiveData: MutableLiveData<List<Card>> = MutableLiveData()
     private var errorLiveData: MutableLiveData<String> = MutableLiveData()
 
@@ -40,7 +41,7 @@ class MainUserViewModel : ViewModel() {
     }
 
     fun getCardsFromServer(){
-        disposable = cardsRepository.getCards().subscribe(
+        val disposable = cardsRepository.getCards().subscribe(
             {
             cardList -> cardListLiveData.postValue(cardList)
                         Timber.tag(TAG).d("cardList: %s", cardList.toString())
@@ -50,6 +51,7 @@ class MainUserViewModel : ViewModel() {
                         Timber.tag(TAG).d("Error message: %s", error.message)
             }
         )
+        compositeDisposable.add(disposable)
     }
 
     fun logout(){
@@ -57,7 +59,7 @@ class MainUserViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        disposable.dispose()
+        compositeDisposable.clear()
         super.onCleared()
     }
 
